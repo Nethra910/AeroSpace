@@ -1,0 +1,1 @@
+from backend.models.news import News
