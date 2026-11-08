@@ -1,0 +1,32 @@
+from datetime import datetime
+from pydantic import BaseModel, ConfigDict
+
+
+class NewsBase(BaseModel):
+    title: str
+    category: str
+    author: str
+    summary: str
+    content: str
+
+
+class NewsCreate(NewsBase):
+    pass
+
+
+class NewsUpdate(BaseModel):
+    title: str | None = None
+    category: str | None = None
+    author: str | None = None
+    summary: str | None = None
+    content: str | None = None
+    published: bool | None = None
+
+
+class NewsResponse(NewsBase):
+    id: int
+    published: bool
+    published_at: datetime | None
+    created_at: datetime
+
+    model_config = ConfigDict(from_attributes=True)
