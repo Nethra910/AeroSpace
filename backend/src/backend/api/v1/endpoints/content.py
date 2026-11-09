@@ -10,6 +10,8 @@ from backend.schemas.content import (
     MissionContentResponse,
 )
 
+from backend.api.v1.endpoints.auth import get_current_admin
+
 router = APIRouter()
 
 
@@ -22,7 +24,7 @@ def get_home(db: Session = Depends(get_db)):
 
 
 @router.put("/home", response_model=HomeContentResponse)
-def update_home(data: HomeContentUpdate, db: Session = Depends(get_db)):
+def update_home(data: HomeContentUpdate, db: Session = Depends(get_db), admin: dict = Depends(get_current_admin)):
     content = db.query(HomeContent).first()
     if not content:
         content = HomeContent(**data.model_dump())
@@ -45,7 +47,7 @@ def get_mission(db: Session = Depends(get_db)):
 
 
 @router.put("/mission", response_model=MissionContentResponse)
-def update_mission(data: MissionContentUpdate, db: Session = Depends(get_db)):
+def update_mission(data: MissionContentUpdate, db: Session = Depends(get_db), admin: dict = Depends(get_current_admin)):
     content = db.query(MissionContent).first()
     if not content:
         content = MissionContent(**data.model_dump())

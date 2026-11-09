@@ -5,13 +5,15 @@ from backend.db.session import get_db
 from backend.models.news import News
 from backend.schemas.news import NewsCreate, NewsUpdate, NewsResponse
 
+from backend.api.v1.endpoints.auth import get_current_admin
+
 from datetime import datetime
 
 router = APIRouter()
 
 
 @router.post("/", response_model=NewsResponse, status_code=status.HTTP_201_CREATED)
-def create_news(data: NewsCreate, db: Session = Depends(get_db)):
+def create_news(data: NewsCreate, db: Session = Depends(get_db), admin: dict = Depends(get_current_admin)):
     news = News(**data.model_dump())
     db.add(news)
     db.commit()
@@ -35,7 +37,7 @@ def get_news_by_id(news_id: int, db: Session = Depends(get_db)):
 
 
 @router.put("/{news_id}", response_model=NewsResponse)
-def update_news(news_id: int, data: NewsUpdate, db: Session = Depends(get_db)):
+def update_news(news_id: int, data: NewsUpdate, db: Session = Depends(get_db), admin: dict = Depends(get_current_admin)):
     news = db.query(News).filter(News.id == news_id).first()
 
     if not news:
@@ -50,7 +52,7 @@ def update_news(news_id: int, data: NewsUpdate, db: Session = Depends(get_db)):
 
 
 @router.delete("/{news_id}", status_code=status.HTTP_204_NO_CONTENT)
-def delete_news(news_id: int, db: Session = Depends(get_db)):
+def delete_news(news_id: int, db: Session = Depends(get_db), admin: dict = Depends(get_current_admin)):
     news = db.query(News).filter(News.id == news_id).first()
 
     if not news:
@@ -61,7 +63,7 @@ def delete_news(news_id: int, db: Session = Depends(get_db)):
 
 
 @router.patch("/{news_id}/publish", response_model=NewsResponse)
-def toggle_news_publish(news_id: int, db: Session = Depends(get_db)):
+def toggle_news_publish(news_id: int, db: Session = Depends(get_db), admin: dict = Depends(get_current_admin)):
     news = db.query(News).filter(News.id == news_id).first()
 
     if not news:
