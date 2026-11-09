@@ -1,8 +1,8 @@
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 const navigation = [
   { name: "Home", path: "/" },
-  { name: "About", path: "/about" },
+  { name: "Mission", path: "/mission" },
   { name: "Vision 2036", path: "/vision-2036" },
   { name: "Projects", path: "/projects" },
   { name: "Research", path: "/research" },
@@ -19,13 +19,17 @@ function Header() {
 
         <div className="hidden items-center gap-8 md:flex">
           {navigation.map((item) => (
-            <Link
+            <NavLink
               key={item.path}
               to={item.path}
-              className="text-sm text-slate-300 transition hover:text-cyan-400"
+              className={({ isActive }) =>
+                `text-sm transition hover:text-cyan-400 ${
+                  isActive ? "text-cyan-400" : "text-slate-300"
+                }`
+              }
             >
               {item.name}
-            </Link>
+            </NavLink>
           ))}
         </div>
       </nav>
