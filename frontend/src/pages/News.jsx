@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import newsService from "../services/newsService";
 
 function News() {
@@ -19,7 +20,8 @@ function News() {
         <p className="font-mono uppercase tracking-widest text-cyan-400">
           Updates
         </p>
-        <h1 className="mt-4 text-5xl font-bold">Latest News</h1>
+
+        <h1 className="mt-4 text-4xl font-bold md:text-5xl">Latest News</h1>
 
         {loading ? (
           <p className="mt-12 text-slate-400">Loading news...</p>
@@ -30,12 +32,26 @@ function News() {
             {news.map((item) => (
               <article
                 key={item.id}
-                className="rounded-xl border border-white/10 bg-slate-900 p-8"
+                className="rounded-xl border border-white/10 bg-slate-900 p-8 transition hover:-translate-y-1 hover:border-cyan-400/50"
               >
                 <p className="text-sm text-cyan-400">{item.category}</p>
+
                 <h2 className="mt-4 text-xl font-semibold">{item.title}</h2>
-                <p className="mt-4 text-slate-400">{item.summary}</p>
-                <p className="mt-6 text-sm text-slate-500">{item.author}</p>
+
+                <p className="mt-4 line-clamp-3 text-slate-400">
+                  {item.summary}
+                </p>
+
+                <div className="mt-6 flex items-center justify-between">
+                  <p className="text-sm text-slate-500">{item.author}</p>
+
+                  <Link
+                    to={`/news/${item.id}`}
+                    className="text-sm font-medium text-cyan-400 hover:text-white"
+                  >
+                    Read More →
+                  </Link>
+                </div>
               </article>
             ))}
           </div>

@@ -17,6 +17,7 @@ import ParentCompany from "../pages/ParentCompany";
 import Research from "../pages/Research";
 import PublishedPapers from "../pages/PublishedPapers";
 import Simulation from "../pages/Simulation";
+import NewsDetails from "../pages/NewsDetails";
 
 function AppRoutes() {
   return (
@@ -25,6 +26,7 @@ function AppRoutes() {
         <Route path="/" element={<Home />} />
         <Route path="/mission" element={<Mission />} />
         <Route path="/news" element={<News />} />
+        <Route path="/news/:id" element={<NewsDetails />} />
         <Route path="/vision-2036" element={<Vision2036 />} />
         <Route path="/team-simha" element={<TeamSimha />} />
         <Route path="/directors" element={<Directors />} />
