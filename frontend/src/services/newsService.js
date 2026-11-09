@@ -9,6 +9,17 @@ const updateNews = (id, data) => api.put(`/admin/news/${id}`, data);
 const deleteNews = (id) => api.delete(`/admin/news/${id}`);
 const togglePublish = (id) => api.patch(`/admin/news/${id}/publish`);
 
+const uploadImage = (file) => {
+  const formData = new FormData();
+  formData.append("file", file);
+
+  return api.post("/admin/news/upload-image", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+};
+
 export default {
   getPublishedNews,
   getNewsById,
@@ -17,4 +28,5 @@ export default {
   updateNews,
   deleteNews,
   togglePublish,
+  uploadImage,
 };

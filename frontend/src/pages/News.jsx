@@ -32,25 +32,36 @@ function News() {
             {news.map((item) => (
               <article
                 key={item.id}
-                className="rounded-xl border border-white/10 bg-slate-900 p-8 transition hover:-translate-y-1 hover:border-cyan-400/50"
+                className="overflow-hidden rounded-xl border border-white/10 bg-slate-900 transition hover:-translate-y-1 hover:border-cyan-400/50"
               >
-                <p className="text-sm text-cyan-400">{item.category}</p>
+                {item.image_url && (
+                  <img
+                    src={item.image_url}
+                    alt={item.title}
+                    loading="lazy"
+                    className="h-52 w-full object-cover"
+                  />
+                )}
 
-                <h2 className="mt-4 text-xl font-semibold">{item.title}</h2>
+                <div className="p-8">
+                  <p className="text-sm text-cyan-400">{item.category}</p>
 
-                <p className="mt-4 line-clamp-3 text-slate-400">
-                  {item.summary}
-                </p>
+                  <h2 className="mt-4 text-xl font-semibold">{item.title}</h2>
 
-                <div className="mt-6 flex items-center justify-between">
-                  <p className="text-sm text-slate-500">{item.author}</p>
+                  <p className="mt-4 line-clamp-3 text-slate-400">
+                    {item.summary}
+                  </p>
 
-                  <Link
-                    to={`/news/${item.id}`}
-                    className="text-sm font-medium text-cyan-400 hover:text-white"
-                  >
-                    Read More →
-                  </Link>
+                  <div className="mt-6 flex items-center justify-between">
+                    <p className="text-sm text-slate-500">{item.author}</p>
+
+                    <Link
+                      to={`/news/${item.id}`}
+                      className="text-sm font-medium text-cyan-400 hover:text-white"
+                    >
+                      Read More →
+                    </Link>
+                  </div>
                 </div>
               </article>
             ))}

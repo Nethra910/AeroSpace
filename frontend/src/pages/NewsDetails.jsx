@@ -60,6 +60,14 @@ function NewsDetails() {
           )}
         </div>
 
+        {news.image_url && (
+          <img
+            src={news.image_url}
+            alt={news.title}
+            className="mt-10 max-h-[500px] w-full rounded-xl border border-white/10 object-cover"
+          />
+        )}
+
         <div className="mt-10 border-t border-white/10 pt-8">
           <p className="whitespace-pre-line text-lg leading-9 text-slate-300">
             {news.content}
