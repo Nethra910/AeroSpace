@@ -38,13 +38,6 @@ function HeroSection() {
           >
             Explore Our Mission
           </a>
-
-          <a
-            href="/projects"
-            className="rounded-md border border-[#1D2940] px-6 py-3 transition hover:border-[#3EE0FF]"
-          >
-            Discover Projects
-          </a>
         </div>
       </div>
     </section>

@@ -8,7 +8,6 @@ const navigation = [
   { name: "Team SIMHA", path: "/team-simha" },
   { name: "Directors", path: "/directors" },
   { name: "Parent Company", path: "/parent-company" },
-  { name: "Projects", path: "/projects" },
   { name: "Research", path: "/research" },
   { name: "News", path: "/news" },
   { name: "Published Papers", path: "/published-papers" },
