@@ -1,3 +1,4 @@
+
 import cloudinary
 import cloudinary.uploader
 from backend.core.config import settings
@@ -19,10 +20,21 @@ def upload_news_image(file):
 
     return result["secure_url"]
 
+
 def upload_team_member_image(file):
     result = cloudinary.uploader.upload(
         file,
         folder="mani-aerospace/team",
+        resource_type="image",
+    )
+
+    return result["secure_url"]
+
+
+def upload_board_member_image(file):
+    result = cloudinary.uploader.upload(
+        file,
+        folder="mani-aerospace/board-members",
         resource_type="image",
     )
 

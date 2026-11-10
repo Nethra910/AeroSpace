@@ -1,6 +1,6 @@
 
 from fastapi import APIRouter
-from backend.api.v1.endpoints import health, news, content, auth, team_members
+from backend.api.v1.endpoints import health, news, content, auth, team_members, board_members
 
 api_router = APIRouter()
 
@@ -14,3 +14,15 @@ api_router.include_router(content.router, prefix="/content", tags=["Content"])
 
 api_router.include_router(team_members.public_router, prefix="/team-members", tags=["Public Team"])
 api_router.include_router(team_members.admin_router, prefix="/admin/team-members", tags=["Admin Team"])
+
+api_router.include_router(
+    board_members.public_router,
+    prefix="/board-members",
+    tags=["Public Board Members"]
+)
+
+api_router.include_router(
+    board_members.admin_router,
+    prefix="/admin/board-members",
+    tags=["Admin Board Members"]
+)
