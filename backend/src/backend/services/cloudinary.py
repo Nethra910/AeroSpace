@@ -18,3 +18,12 @@ def upload_news_image(file):
     )
 
     return result["secure_url"]
+
+def upload_team_member_image(file):
+    result = cloudinary.uploader.upload(
+        file,
+        folder="mani-aerospace/team",
+        resource_type="image",
+    )
+
+    return result["secure_url"]
