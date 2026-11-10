@@ -18,6 +18,7 @@ import Research from "../pages/Research";
 import PublishedPapers from "../pages/PublishedPapers";
 import Simulation from "../pages/Simulation";
 import NewsDetails from "../pages/NewsDetails";
+import TeamManagement from "../pages/admin/TeamManagement";
 
 function AppRoutes() {
   return (
@@ -43,6 +44,7 @@ function AppRoutes() {
         <Route path="/admin/news" element={<NewsManagement />} />
         <Route path="/admin/home" element={<HomeEditor />} />
         <Route path="/admin/mission" element={<MissionEditor />} />
+        <Route path="/admin/team" element={<TeamManagement />} />
       </Route>
 
       <Route path="*" element={<NotFound />} />

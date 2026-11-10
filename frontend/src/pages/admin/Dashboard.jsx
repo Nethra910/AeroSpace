@@ -46,6 +46,16 @@ function Dashboard() {
             <h2 className="text-xl font-semibold">Edit Mission</h2>
             <p className="mt-3 text-slate-400">Update mission content.</p>
           </Link>
+
+          <Link
+            to="/admin/team"
+            className="rounded-xl border border-white/10 bg-slate-900 p-8 hover:border-cyan-400"
+          >
+            <h2 className="text-xl font-semibold">Manage Team SIMHA</h2>
+            <p className="mt-3 text-slate-400">
+              Add, edit, and manage team members.
+            </p>
+          </Link>
         </div>
       </div>
     </section>
