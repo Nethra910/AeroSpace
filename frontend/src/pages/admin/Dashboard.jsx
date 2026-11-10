@@ -56,6 +56,16 @@ function Dashboard() {
               Add, edit, and manage team members.
             </p>
           </Link>
+
+          <Link
+            to="/admin/board-members"
+            className="rounded-xl border border-white/10 bg-slate-900 p-8 hover:border-cyan-400"
+          >
+            <h2 className="text-xl font-semibold">Manage Board Members</h2>
+            <p className="mt-3 text-slate-400">
+              Add, edit, and manage board member profiles.
+            </p>
+          </Link>
         </div>
       </div>
     </section>

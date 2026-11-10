@@ -19,6 +19,7 @@ import PublishedPapers from "../pages/PublishedPapers";
 import Simulation from "../pages/Simulation";
 import NewsDetails from "../pages/NewsDetails";
 import TeamManagement from "../pages/admin/TeamManagement";
+import BoardMemberManagement from "../pages/admin/BoardMemberManagement";
 
 function AppRoutes() {
   return (
@@ -45,6 +46,10 @@ function AppRoutes() {
         <Route path="/admin/home" element={<HomeEditor />} />
         <Route path="/admin/mission" element={<MissionEditor />} />
         <Route path="/admin/team" element={<TeamManagement />} />
+        <Route
+          path="/admin/board-members"
+          element={<BoardMemberManagement />}
+        />
       </Route>
 
       <Route path="*" element={<NotFound />} />
