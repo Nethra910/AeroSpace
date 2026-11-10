@@ -8,6 +8,7 @@ class NewsBase(BaseModel):
     author: str
     summary: str
     content: str
+    image_url: str | None = None
 
 
 class NewsCreate(NewsBase):
@@ -20,6 +21,7 @@ class NewsUpdate(BaseModel):
     author: str | None = None
     summary: str | None = None
     content: str | None = None
+    image_url: str | None = None
     published: bool | None = None
 
 

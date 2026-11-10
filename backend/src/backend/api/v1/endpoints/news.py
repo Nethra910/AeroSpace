@@ -1,12 +1,25 @@
 from datetime import datetime, timezone
 
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import (
+    APIRouter,
+    Depends,
+    HTTPException,
+    status,
+    UploadFile,
+    File,
+)
 from sqlalchemy.orm import Session
 
 from backend.db.session import get_db
 from backend.models.news import News
 from backend.schemas.news import NewsCreate, NewsUpdate, NewsResponse
 from backend.api.v1.endpoints.auth import get_current_admin
+from backend.services.cloudinary import upload_news_image
+
+import io
+import logging
+
+logger = logging.getLogger(__name__)
 
 public_router = APIRouter()
 admin_router = APIRouter()
@@ -108,3 +121,35 @@ def toggle_news_publish(
     db.commit()
     db.refresh(news)
     return news
+
+@admin_router.post("/upload-image")
+async def upload_image(
+    file: UploadFile = File(...),
+    admin: dict = Depends(get_current_admin),
+):
+    allowed_types = ["image/jpeg", "image/png", "image/webp"]
+
+    if file.content_type not in allowed_types:
+        raise HTTPException(
+            status_code=400,
+            detail="Only JPG, PNG and WEBP images are allowed",
+        )
+
+    image_data = await file.read()
+
+    if len(image_data) > 5 * 1024 * 1024:
+        raise HTTPException(
+            status_code=400,
+            detail="Image size must be less than 5 MB",
+        )
+
+    try:
+        image_url = upload_news_image(io.BytesIO(image_data))
+        return {"image_url": image_url}
+
+    except Exception:
+        logger.exception("Cloudinary image upload failed")
+        raise HTTPException(
+            status_code=500,
+            detail="Image upload failed. Check backend logs.",
+        )

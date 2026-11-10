@@ -17,3 +17,4 @@ class News(Base):
     created_at: Mapped[DateTime] = mapped_column(
         DateTime(timezone=True), server_default=func.now()
     )
+    image_url: Mapped[str | None] = mapped_column(String(500), nullable=True)
