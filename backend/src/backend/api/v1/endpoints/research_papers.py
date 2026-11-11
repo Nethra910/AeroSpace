@@ -1,26 +1,27 @@
 
 from io import BytesIO
 from math import ceil
-from sqlalchemy import func, or_
+from datetime import datetime, timezone
 
 import jwt
+import cloudinary
 
-from sqlalchemy import exists, literal
+from sqlalchemy import func, or_, exists, literal
+from sqlalchemy.orm import Session
+
+from fastapi import APIRouter, Depends, File, HTTPException, UploadFile
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 
 from backend.core.config import settings
 from backend.services.auth import decode_access_token, decode_user_access_token
-import cloudinary
-from fastapi import APIRouter, Depends, File, HTTPException, UploadFile
-
-from datetime import datetime, timezone
-
-from sqlalchemy.orm import Session
 
 from backend.db.session import get_db
+
 from backend.models.research_paper import ResearchPaper
 from backend.models.paper_like import PaperLike
 from backend.models.paper_comment import PaperComment
+from backend.models.user import User
+
 
 from backend.schemas.research_paper import (
     ResearchPaperCreate,
@@ -33,10 +34,6 @@ from backend.schemas.research_paper import (
 
 from backend.api.v1.endpoints.users import get_current_user
 from backend.api.v1.endpoints.auth import get_current_admin
-from backend.models.user import User
-
-from sqlalchemy import func
-
 
 
 user_router = APIRouter()
@@ -44,6 +41,8 @@ admin_router = APIRouter()
 public_router = APIRouter()
 
 optional_security = HTTPBearer(auto_error=False)
+
+MAX_FILE_SIZE = 20 * 1024 * 1024
 
 
 def get_optional_identity(
@@ -68,7 +67,10 @@ def get_optional_identity(
             ).first()
 
             if not user:
-                raise HTTPException(status_code=401, detail="User not found or inactive")
+                raise HTTPException(
+                    status_code=401,
+                    detail="User not found or inactive",
+                )
 
             return {"type": "user", "id": user.id}
 
@@ -78,10 +80,10 @@ def get_optional_identity(
         raise HTTPException(status_code=401, detail="Invalid token")
 
     except (jwt.InvalidTokenError, ValueError, TypeError):
-        raise HTTPException(status_code=401, detail="Invalid or expired token")
-
-
-MAX_FILE_SIZE = 20 * 1024 * 1024
+        raise HTTPException(
+            status_code=401,
+            detail="Invalid or expired token",
+        )
 
 
 async def upload_pdf(file: UploadFile):
@@ -148,7 +150,6 @@ async def upload_admin_paper(
     return await upload_pdf(file)
 
 
-
 @user_router.post(
     "/",
     response_model=ResearchPaperResponse,
@@ -165,6 +166,7 @@ def submit_user_paper(
         affiliation=data.affiliation,
         keywords=data.keywords,
         pdf_url=data.pdf_url,
+        cloudinary_public_id=data.cloudinary_public_id,
         submitted_by=current_user.id,
         is_admin_submission=False,
         status="pending",
@@ -300,6 +302,52 @@ def get_published_papers(
         "total_pages": ceil(total / limit) if total else 0,
     }
 
+
+@public_router.get(
+    "/{paper_id}",
+    response_model=PublicResearchPaperResponse,
+)
+def get_published_paper(
+    paper_id: int,
+    identity: dict | None = Depends(get_optional_identity),
+    db: Session = Depends(get_db),
+):
+    paper = db.query(ResearchPaper).filter(
+        ResearchPaper.id == paper_id,
+        ResearchPaper.status == "approved",
+    ).first()
+
+    if not paper:
+        raise HTTPException(
+            status_code=404,
+            detail="Published paper not found",
+        )
+
+    paper.likes_count = db.query(func.count(PaperLike.id)).filter(
+        PaperLike.paper_id == paper_id
+    ).scalar()
+
+    paper.comments_count = db.query(func.count(PaperComment.id)).filter(
+        PaperComment.paper_id == paper_id
+    ).scalar()
+
+    paper.is_liked = False
+
+    if identity and identity["type"] == "user":
+        paper.is_liked = db.query(PaperLike).filter(
+            PaperLike.paper_id == paper_id,
+            PaperLike.user_id == identity["id"],
+        ).first() is not None
+
+    elif identity and identity["type"] == "admin":
+        paper.is_liked = db.query(PaperLike).filter(
+            PaperLike.paper_id == paper_id,
+            PaperLike.admin_username == identity["username"],
+        ).first() is not None
+
+    return paper
+
+
 @admin_router.patch(
     "/{paper_id}/review",
     response_model=ResearchPaperResponse,
@@ -343,6 +391,7 @@ def review_research_paper(
     db.refresh(paper)
 
     return paper
+
 
 @user_router.post("/{paper_id}/like")
 def like_paper(
@@ -396,6 +445,7 @@ def unlike_paper(
 
     return {"message": "Like removed successfully"}
 
+
 @admin_router.post("/{paper_id}/like")
 def admin_like_paper(
     paper_id: int,
@@ -448,6 +498,7 @@ def admin_unlike_paper(
 
     return {"message": "Like removed successfully"}
 
+
 @user_router.post(
     "/{paper_id}/comments",
     response_model=PaperCommentResponse,
@@ -477,6 +528,7 @@ def add_user_comment(
     db.refresh(comment)
 
     return comment
+
 
 @admin_router.post(
     "/{paper_id}/comments",
@@ -508,6 +560,8 @@ def add_admin_comment(
 
     return comment
 
+
+
 @public_router.get(
     "/{paper_id}/comments",
     response_model=list[PaperCommentResponse],
@@ -524,12 +578,28 @@ def get_paper_comments(
     if not paper:
         raise HTTPException(status_code=404, detail="Published paper not found")
 
-    return (
-        db.query(PaperComment)
+    results = (
+        db.query(PaperComment, User.name)
+        .outerjoin(User, PaperComment.user_id == User.id)
         .filter(PaperComment.paper_id == paper_id)
         .order_by(PaperComment.created_at.asc())
         .all()
     )
+
+    return [
+        {
+            "id": comment.id,
+            "paper_id": comment.paper_id,
+            "user_id": comment.user_id,
+            "admin_username": comment.admin_username,
+            "user_name": user_name,
+            "comment": comment.comment,
+            "created_at": comment.created_at,
+            "updated_at": comment.updated_at,
+        }
+        for comment, user_name in results
+    ]
+
 
 @user_router.delete("/{paper_id}/comments/{comment_id}")
 def delete_user_comment(
@@ -555,6 +625,7 @@ def delete_user_comment(
 
     return {"message": "Comment deleted successfully"}
 
+
 @admin_router.delete("/{paper_id}/comments/{comment_id}")
 def admin_delete_comment(
     paper_id: int,
@@ -574,3 +645,133 @@ def admin_delete_comment(
     db.commit()
 
     return {"message": "Comment deleted successfully"}
+
+
+
+@user_router.get(
+    "/my-submissions",
+    response_model=list[ResearchPaperResponse],
+)
+def get_my_submissions(
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    papers = (
+        db.query(ResearchPaper)
+        .filter(ResearchPaper.submitted_by == current_user.id)
+        .order_by(ResearchPaper.created_at.desc())
+        .all()
+    )
+
+    return papers
+
+
+
+@admin_router.get(
+    "/pending",
+    response_model=list[ResearchPaperResponse],
+)
+def get_pending_research_papers(
+    db: Session = Depends(get_db),
+    current_admin: dict = Depends(get_current_admin),
+):
+    papers = (
+        db.query(ResearchPaper)
+        .filter(ResearchPaper.status == "pending")
+        .order_by(ResearchPaper.created_at.desc())
+        .all()
+    )
+
+    return papers
+
+@admin_router.get(
+    "/",
+    response_model=list[ResearchPaperResponse],
+)
+def get_all_research_papers(
+    db: Session = Depends(get_db),
+    current_admin: dict = Depends(get_current_admin),
+):
+    papers = (
+        db.query(ResearchPaper)
+        .order_by(ResearchPaper.created_at.desc())
+        .all()
+    )
+
+    return papers
+
+@admin_router.delete("/{paper_id}")
+def delete_research_paper(
+    paper_id: int,
+    db: Session = Depends(get_db),
+    current_admin: dict = Depends(get_current_admin),
+):
+    paper = db.query(ResearchPaper).filter(
+        ResearchPaper.id == paper_id
+    ).first()
+
+    if not paper:
+        raise HTTPException(
+            status_code=404,
+            detail="Research paper not found",
+        )
+
+    if paper.status == "pending":
+        raise HTTPException(
+            status_code=400,
+            detail="Pending papers must be reviewed first",
+        )
+
+    db.delete(paper)
+    db.commit()
+
+    return {"message": "Research paper deleted successfully"}
+
+
+@admin_router.delete("/{paper_id}")
+def delete_research_paper(
+    paper_id: int,
+    db: Session = Depends(get_db),
+    current_admin: dict = Depends(get_current_admin),
+):
+    paper = db.query(ResearchPaper).filter(
+        ResearchPaper.id == paper_id
+    ).first()
+
+    if not paper:
+        raise HTTPException(
+            status_code=404,
+            detail="Research paper not found",
+        )
+
+    if paper.status == "pending":
+        raise HTTPException(
+            status_code=400,
+            detail="Pending papers must be reviewed first",
+        )
+
+    if paper.cloudinary_public_id:
+        try:
+            result = cloudinary.uploader.destroy(
+                paper.cloudinary_public_id,
+                resource_type="raw",
+            )
+
+            if result.get("result") not in ("ok", "not found"):
+                raise HTTPException(
+                    status_code=502,
+                    detail="Failed to delete PDF from Cloudinary",
+                )
+
+        except HTTPException:
+            raise
+        except Exception:
+            raise HTTPException(
+                status_code=502,
+                detail="Cloudinary deletion failed",
+            )
+
+    db.delete(paper)
+    db.commit()
+
+    return {"message": "Research paper and PDF deleted successfully"}
