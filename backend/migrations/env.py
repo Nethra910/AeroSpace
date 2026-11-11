@@ -7,6 +7,7 @@ from alembic import context
 from backend.core.config import settings
 from backend.db.base import Base
 from backend.models import News
+from backend.models.user import User
 
 config = context.config
 

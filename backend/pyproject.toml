@@ -9,11 +9,13 @@ dependencies = [
     "alembic>=1.20.1",
     "cloudinary>=1.47.0",
     "fastapi>=0.162.2",
+    "google-auth>=2.62.1",
     "pwdlib[argon2]>=0.3.1",
     "pydantic-settings>=2.16.2",
     "pyjwt>=2.15.1",
     "pymysql>=1.2.3",
     "python-multipart>=0.0.33",
+    "requests>=2.34.2",
     "sqlalchemy>=2.1.8",
     "uvicorn[standard]>=0.54.0",
 ]

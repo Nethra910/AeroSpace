@@ -20,6 +20,8 @@ import Simulation from "../pages/Simulation";
 import NewsDetails from "../pages/NewsDetails";
 import TeamManagement from "../pages/admin/TeamManagement";
 import BoardMemberManagement from "../pages/admin/BoardMemberManagement";
+import UserLogin from "../pages/auth/UserLogin";
+import UserProfile from "../pages/auth/UserProfile";
 
 function AppRoutes() {
   return (
@@ -36,8 +38,9 @@ function AppRoutes() {
         <Route path="/research" element={<Research />} />
         <Route path="/published-papers" element={<PublishedPapers />} />
         <Route path="/simulation" element={<Simulation />} />
+        <Route path="/profile" element={<UserProfile />} />
       </Route>
-
+      <Route path="/login" element={<UserLogin />} />
       <Route path="/admin/login" element={<Login />} />
 
       <Route element={<ProtectedRoute />}>
