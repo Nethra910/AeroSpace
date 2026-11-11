@@ -66,6 +66,22 @@ function Dashboard() {
               Add, edit, and manage board member profiles.
             </p>
           </Link>
+          <Link
+            to="/admin/research-papers"
+            className="block rounded-xl border border-[#1D2940] bg-[#0C1322] p-6 transition hover:border-[#3EE0FF]"
+          >
+            <h2 className="text-xl font-semibold text-white">
+              Research Papers
+            </h2>
+
+            <p className="mt-2 text-gray-400">
+              Review, approve, or reject user-submitted research papers.
+            </p>
+
+            <span className="mt-4 inline-block text-[#3EE0FF]">
+              Manage Papers →
+            </span>
+          </Link>
         </div>
       </div>
     </section>

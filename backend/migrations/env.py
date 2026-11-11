@@ -8,6 +8,9 @@ from backend.core.config import settings
 from backend.db.base import Base
 from backend.models import News
 from backend.models.user import User
+from backend.models.research_paper import ResearchPaper
+from backend.models.paper_like import PaperLike
+from backend.models.paper_comment import PaperComment
 
 config = context.config
 

@@ -1,12 +1,18 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import authService from "../../services/authService";
+import { useSearchParams } from "react-router-dom";
 
 function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [error, setError] = useState(
+    searchParams.get("session") === "expired"
+      ? "Your session has expired. Please log in again."
+      : "",
+  );
   const [loading, setLoading] = useState(false);
+  const [searchParams] = useSearchParams();
 
   const navigate = useNavigate();
 

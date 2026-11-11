@@ -85,6 +85,27 @@ function Header() {
               {item.name}
             </NavLink>
           ))}
+
+          {!loading && user && (
+            <>
+              <NavLink
+                to="/submit-research-paper"
+                className={navClass}
+                onClick={() => setMenuOpen(false)}
+              >
+                Submit Paper
+              </NavLink>
+
+              <NavLink
+                to="/my-submissions"
+                className={navClass}
+                onClick={() => setMenuOpen(false)}
+              >
+                My Submissions
+              </NavLink>
+            </>
+          )}
+
           {userActions}
         </div>
 
@@ -111,6 +132,17 @@ function Header() {
                 {item.name}
               </NavLink>
             ))}
+
+            {!loading && user && (
+              <NavLink
+                to="/submit-research-paper"
+                className={navClass}
+                onClick={() => setMenuOpen(false)}
+              >
+                Submit Paper
+              </NavLink>
+            )}
+
             {userActions}
           </div>
         </div>
