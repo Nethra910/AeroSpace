@@ -36,3 +36,28 @@ def decode_access_token(token: str):
         settings.JWT_SECRET_KEY,
         algorithms=[settings.JWT_ALGORITHM],
     )
+
+def create_user_access_token(user_id: int, email: str):
+    expires = datetime.now(timezone.utc) + timedelta(
+        minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES
+    )
+
+    return jwt.encode(
+        {
+            "sub": str(user_id),
+            "email": email,
+            "type": "user",
+            "exp": expires,
+        },
+        settings.JWT_SECRET_KEY,
+        algorithm=settings.JWT_ALGORITHM,
+    )
+
+
+def decode_user_access_token(token: str):
+    payload = decode_access_token(token)
+
+    if payload.get("type") != "user":
+        raise jwt.InvalidTokenError("Invalid user token")
+
+    return payload
