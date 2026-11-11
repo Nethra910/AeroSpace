@@ -1,4 +1,95 @@
+import { useEffect, useState } from "react";
+import {
+  getPublishedPapers,
+  likePaper,
+  unlikePaper,
+} from "../services/researchPaperService";
+
+import { useAuth } from "../context/AuthContext";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+
 function PublishedPapers() {
+  const [papers, setPapers] = useState([]);
+  const [searchInput, setSearchInput] = useState("");
+  const [search, setSearch] = useState("");
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const [likingId, setLikingId] = useState(null);
+  const location = useLocation();
+
+  const { user, loading: authLoading } = useAuth();
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  const navigate = useNavigate();
+
+  const fetchPapers = async () => {
+    try {
+      setLoading(true);
+      setError("");
+
+      const data = await getPublishedPapers({
+        search,
+        page,
+        limit: 6,
+      });
+
+      setPapers(data.items);
+      setTotalPages(data.total_pages);
+    } catch (err) {
+      setError(err.response?.data?.detail || "Failed to load research papers.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (!authLoading) {
+      fetchPapers();
+    }
+  }, [search, page, authLoading]);
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    setPage(1);
+    setSearch(searchInput.trim());
+  };
+
+  const handleLike = async (paper) => {
+    if (authLoading) return;
+
+    if (!user) {
+      setShowLoginModal(true);
+      return;
+    }
+
+    try {
+      setLikingId(paper.id);
+      setError("");
+
+      if (paper.is_liked) {
+        await unlikePaper(paper.id);
+      } else {
+        await likePaper(paper.id);
+      }
+
+      setPapers((current) =>
+        current.map((item) =>
+          item.id === paper.id
+            ? {
+                ...item,
+                is_liked: !item.is_liked,
+                likes_count: item.likes_count + (item.is_liked ? -1 : 1),
+              }
+            : item,
+        ),
+      );
+    } catch (err) {
+      setError(err.response?.data?.detail || "Unable to update like.");
+    } finally {
+      setLikingId(null);
+    }
+  };
   return (
     <section className="min-h-screen bg-[#060A13] px-6 py-20 text-[#E9EEF6]">
       <div className="mx-auto max-w-7xl">
@@ -10,22 +101,195 @@ function PublishedPapers() {
           Published Papers
         </h1>
 
-        <p className="mb-16 max-w-3xl text-lg leading-8 text-slate-400">
+        <p className="mb-12 max-w-3xl text-lg leading-8 text-slate-400">
           Explore research papers, technical publications, and engineering
           contributions from MANI Aerospace.
         </p>
 
-        <div className="rounded-xl border border-[#1D2940] bg-[#0C1322] p-10 text-center">
-          <h2 className="mb-3 text-2xl font-semibold text-[#3EE0FF]">
-            Publications Coming Soon
-          </h2>
+        <form
+          onSubmit={handleSearch}
+          className="mb-10 flex flex-col gap-3 sm:flex-row"
+        >
+          <input
+            type="text"
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
+            placeholder="Search by title, author, abstract or keyword..."
+            className="w-full rounded-lg border border-[#1D2940] bg-[#0C1322] px-5 py-3 text-white outline-none focus:border-[#3EE0FF]"
+          />
 
-          <p className="text-slate-400">
-            Research papers and publication details will be added once official
-            documents are provided.
+          <button
+            type="submit"
+            className="rounded-lg bg-[#3EE0FF] px-8 py-3 font-semibold text-[#060A13] transition hover:bg-white"
+          >
+            Search
+          </button>
+        </form>
+
+        {error && (
+          <div className="mb-6 rounded-lg border border-red-500/30 bg-red-500/10 p-4 text-red-300">
+            {error}
+          </div>
+        )}
+
+        {loading ? (
+          <p className="py-20 text-center text-slate-400">
+            Loading research papers...
           </p>
-        </div>
+        ) : papers.length === 0 ? (
+          <div className="rounded-xl border border-[#1D2940] bg-[#0C1322] p-12 text-center">
+            <h2 className="mb-3 text-2xl font-semibold text-[#3EE0FF]">
+              No Papers Found
+            </h2>
+            <p className="text-slate-400">
+              No published research papers match your search.
+            </p>
+          </div>
+        ) : (
+          <>
+            <div className="grid gap-7 md:grid-cols-2 lg:grid-cols-3">
+              {papers.map((paper) => (
+                <article
+                  key={paper.id}
+                  className="flex flex-col rounded-xl border border-[#1D2940] bg-[#0C1322] p-7 transition hover:border-[#3EE0FF]/60"
+                >
+                  <div className="mb-5 flex items-center justify-between">
+                    <span className="rounded-full bg-[#3EE0FF]/10 px-3 py-1 text-xs font-semibold text-[#3EE0FF]">
+                      Published
+                    </span>
+
+                    <span className="text-sm text-slate-500">#{paper.id}</span>
+                  </div>
+
+                  <h2 className="mb-4 text-xl font-semibold leading-7">
+                    {paper.title}
+                  </h2>
+
+                  <p className="mb-4 text-sm text-slate-400">
+                    By {paper.authors}
+                  </p>
+
+                  <p className="mb-6 flex-1 leading-7 text-slate-400">
+                    {paper.abstract}
+                  </p>
+
+                  {paper.keywords && (
+                    <p className="mb-5 text-sm text-[#3EE0FF]">
+                      {paper.keywords}
+                    </p>
+                  )}
+
+                  <div className="mb-6 flex items-center gap-5 text-sm text-slate-400">
+                    <span>{paper.likes_count} Likes</span>
+                    <button
+                      onClick={() => {
+                        if (authLoading) return;
+
+                        if (!user) {
+                          setShowLoginModal(true);
+                        } else {
+                          navigate(`/published-papers/${paper.id}`);
+                        }
+                      }}
+                      className="transition hover:text-[#3EE0FF]"
+                    >
+                      {paper.comments_count} Comments
+                    </button>
+                  </div>
+
+                  <div className="flex flex-wrap items-center gap-3">
+                    <button
+                      onClick={() => handleLike(paper)}
+                      disabled={likingId === paper.id}
+                      className={`rounded-lg px-4 py-2 text-sm font-semibold transition disabled:opacity-50 ${
+                        paper.is_liked
+                          ? "bg-[#3EE0FF] text-[#060A13]"
+                          : "border border-[#3EE0FF] text-[#3EE0FF] hover:bg-[#3EE0FF] hover:text-[#060A13]"
+                      }`}
+                    >
+                      {likingId === paper.id
+                        ? "Updating..."
+                        : paper.is_liked
+                          ? "Unlike"
+                          : "Like"}
+                    </button>
+
+                    <Link
+                      to={`/published-papers/${paper.id}`}
+                      className="rounded-lg border border-[#3EE0FF] px-4 py-2 text-sm font-semibold text-[#3EE0FF] transition hover:bg-[#3EE0FF] hover:text-[#060A13]"
+                    >
+                      View Details
+                    </Link>
+
+                    <a
+                      href={paper.pdf_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="rounded-lg bg-white/10 px-4 py-2 text-sm font-semibold text-white transition hover:bg-white/20"
+                    >
+                      View PDF
+                    </a>
+                  </div>
+                </article>
+              ))}
+            </div>
+
+            {totalPages > 1 && (
+              <div className="mt-12 flex items-center justify-center gap-5">
+                <button
+                  onClick={() => setPage((current) => current - 1)}
+                  disabled={page === 1}
+                  className="rounded-lg border border-[#1D2940] px-5 py-2 disabled:opacity-30"
+                >
+                  Previous
+                </button>
+
+                <span className="text-sm text-slate-400">
+                  Page {page} of {totalPages}
+                </span>
+
+                <button
+                  onClick={() => setPage((current) => current + 1)}
+                  disabled={page === totalPages}
+                  className="rounded-lg border border-[#1D2940] px-5 py-2 disabled:opacity-30"
+                >
+                  Next
+                </button>
+              </div>
+            )}
+          </>
+        )}
       </div>
+      {showLoginModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 px-4">
+          <div className="w-full max-w-md rounded-2xl border border-[#1D2940] bg-[#0C1322] p-8 text-center shadow-2xl">
+            <h2 className="mb-3 text-2xl font-bold text-white">
+              Login Required
+            </h2>
+
+            <p className="mb-7 text-slate-400">
+              Please login to like and comment on research papers.
+            </p>
+
+            <div className="flex justify-center gap-4">
+              <button
+                onClick={() => setShowLoginModal(false)}
+                className="rounded-lg border border-[#1D2940] px-6 py-3 text-white transition hover:bg-white/10"
+              >
+                Cancel
+              </button>
+
+              <Link
+                to="/login"
+                state={{ from: location }}
+                className="rounded-lg bg-[#3EE0FF] px-6 py-3 font-semibold text-[#060A13]"
+              >
+                Login
+              </Link>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 }

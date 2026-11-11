@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import userApi from "../../services/userApi";
 import { useAuth } from "../../context/AuthContext";
 
-function GoogleLoginButton() {
+function GoogleLoginButton({ redirectTo = "/" }) {
   const { setUser } = useAuth();
   const navigate = useNavigate();
 
@@ -20,9 +20,7 @@ function GoogleLoginButton() {
 
       setUser(user);
 
-      console.log("User logged in:", user);
-
-      navigate("/");
+      navigate(redirectTo, { replace: true });
     } catch (error) {
       console.error(
         "Google login failed:",

@@ -16,13 +16,16 @@ import Directors from "../pages/Directors";
 import ParentCompany from "../pages/ParentCompany";
 import Research from "../pages/Research";
 import PublishedPapers from "../pages/PublishedPapers";
+import ResearchPaperDetails from "../pages/ResearchPaperDetails";
 import Simulation from "../pages/Simulation";
 import NewsDetails from "../pages/NewsDetails";
 import TeamManagement from "../pages/admin/TeamManagement";
 import BoardMemberManagement from "../pages/admin/BoardMemberManagement";
 import UserLogin from "../pages/auth/UserLogin";
 import UserProfile from "../pages/auth/UserProfile";
-
+import SubmitResearchPaper from "../pages/SubmitResearchPaper";
+import MySubmissions from "../pages/MySubmissions";
+import ResearchPaperManagement from "../pages/admin/ResearchPaperManagement";
 function AppRoutes() {
   return (
     <Routes>
@@ -36,10 +39,22 @@ function AppRoutes() {
         <Route path="/directors" element={<Directors />} />
         <Route path="/parent-company" element={<ParentCompany />} />
         <Route path="/research" element={<Research />} />
+
         <Route path="/published-papers" element={<PublishedPapers />} />
+        <Route
+          path="/published-papers/:paperId"
+          element={<ResearchPaperDetails />}
+        />
+        <Route
+          path="/submit-research-paper"
+          element={<SubmitResearchPaper />}
+        />
+        <Route path="/my-submissions" element={<MySubmissions />} />
+
         <Route path="/simulation" element={<Simulation />} />
         <Route path="/profile" element={<UserProfile />} />
       </Route>
+
       <Route path="/login" element={<UserLogin />} />
       <Route path="/admin/login" element={<Login />} />
 
@@ -52,6 +67,10 @@ function AppRoutes() {
         <Route
           path="/admin/board-members"
           element={<BoardMemberManagement />}
+        />
+        <Route
+          path="/admin/research-papers"
+          element={<ResearchPaperManagement />}
         />
       </Route>
 

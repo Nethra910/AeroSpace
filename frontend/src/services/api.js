@@ -8,7 +8,11 @@ const api = axios.create({
 });
 
 api.interceptors.request.use((config) => {
-  const token = localStorage.getItem("admin_token");
+  const isAdminRoute = config.url?.includes("/admin/");
+
+  const token = isAdminRoute
+    ? localStorage.getItem("admin_token")
+    : localStorage.getItem("user_access_token");
 
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
@@ -17,4 +21,18 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    const isAdminRoute = error.config?.url?.includes("/admin/");
+
+    if (error.response?.status === 401 && isAdminRoute) {
+      localStorage.removeItem("admin_token");
+
+      window.location.href = "/admin/login?session=expired";
+    }
+
+    return Promise.reject(error);
+  },
+);
 export default api;

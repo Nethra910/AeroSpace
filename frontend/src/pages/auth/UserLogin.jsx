@@ -1,6 +1,10 @@
+import { useLocation } from "react-router-dom";
 import GoogleLoginButton from "../../components/auth/GoogleLoginButton";
 
 function UserLogin() {
+  const location = useLocation();
+  const redirectTo = location.state?.from?.pathname || "/";
+
   return (
     <div className="flex min-h-screen items-center justify-center bg-[#060A13] px-6">
       <div className="w-full max-w-md rounded-2xl border border-white/10 bg-white/5 p-8 text-center text-white">
@@ -11,7 +15,7 @@ function UserLogin() {
         </p>
 
         <div className="flex justify-center">
-          <GoogleLoginButton />
+          <GoogleLoginButton redirectTo={redirectTo} />
         </div>
       </div>
     </div>
