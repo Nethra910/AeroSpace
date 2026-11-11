@@ -39,3 +39,12 @@ def upload_board_member_image(file):
     )
 
     return result["secure_url"]
+
+def upload_research_paper_pdf(file):
+    result = cloudinary.uploader.upload(
+        file,
+        folder="mani-aerospace/research-papers",
+        resource_type="raw",
+    )
+
+    return result["secure_url"]
