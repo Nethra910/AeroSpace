@@ -31,12 +31,12 @@ function Login() {
   };
 
   return (
-    <section className="page-grid relative flex min-h-screen items-center justify-center overflow-hidden bg-[#060A13] px-6 py-16 text-white">
-      <div className="pointer-events-none absolute left-8 top-8 font-mono text-[10px] uppercase tracking-[0.25em] text-slate-600 md:left-12 md:top-12">
+    <section className="page-grid relative flex min-h-screen items-center justify-center overflow-hidden bg-space-950 px-6 py-16 text-white">
+      <div className="pointer-events-none absolute left-8 top-8 font-mono text-[10px] uppercase tracking-[0.25em] text-muted md:left-12 md:top-12">
         ADMIN CONSOLE / AUTH GATE
       </div>
-      <div className="pointer-events-none absolute bottom-8 right-8 text-right font-mono text-[10px] uppercase tracking-[0.25em] text-slate-600 md:bottom-12 md:right-12">
-        NODE 07 / PRIVILEGED ACCESS
+      <div className="pointer-events-none absolute bottom-8 right-8 text-right font-mono text-[10px] uppercase tracking-[0.25em] text-muted md:bottom-12 md:right-12">
+        ADMIN CONSOLE / REV 2036
       </div>
 
       <form
@@ -46,24 +46,24 @@ function Login() {
         <div className="mb-8 flex items-center justify-between border-b border-white/10 pb-5">
           <div>
             <p className="font-mono text-xs font-semibold tracking-[0.18em]">
-              MANI <span className="text-cyan-400">/ AEROSPACE</span>
+              MANI <span className="text-signal">/ AEROSPACE</span>
             </p>
-            <p className="mt-2 font-mono text-[10px] uppercase tracking-widest text-slate-500">
+            <p className="mt-2 font-mono text-[10px] uppercase tracking-widest text-muted">
               Operations control
             </p>
           </div>
-          <span className="h-2 w-2 rounded-full bg-[#f0a35b] shadow-[0_0_0_4px_rgba(240,163,91,0.12)]" />
+          <span className="h-2 w-2 rounded-full bg-warm shadow-[0_0_0_4px_rgba(240,163,91,0.12)]" />
         </div>
 
         <p className="font-mono text-xs uppercase tracking-[0.2em] text-[#61d6d1]">
           Restricted terminal
         </p>
         <h1 className="mt-4 text-3xl font-bold tracking-tight">Admin Login</h1>
-        <p className="mt-3 text-sm leading-6 text-slate-400">
+        <p className="mt-3 text-sm leading-6 text-muted">
           Authenticate to manage the MANI Aerospace platform.
         </p>
 
-        <label className="mt-8 block font-mono text-xs uppercase tracking-widest text-slate-400">Username</label>
+        <label className="mt-8 block font-mono text-xs uppercase tracking-widest text-muted">Username</label>
         <input
           value={username}
           onChange={(e) => setUsername(e.target.value)}
@@ -71,7 +71,7 @@ function Login() {
           required
         />
 
-        <label className="mt-5 block font-mono text-xs uppercase tracking-widest text-slate-400">Password</label>
+        <label className="mt-5 block font-mono text-xs uppercase tracking-widest text-muted">Password</label>
         <input
           type="password"
           value={password}
@@ -89,14 +89,14 @@ function Login() {
         <button
           type="submit"
           disabled={loading}
-          className="mt-8 flex w-full items-center justify-between bg-[#f0a35b] p-3 font-semibold text-[#060A13] disabled:opacity-50"
+          className="mt-8 flex w-full items-center justify-between bg-warm p-3 font-semibold text-space-950 disabled:opacity-50"
         >
           <span>{loading ? "Logging in..." : "Login"}</span>
           <span aria-hidden="true">↗</span>
         </button>
 
-        <p className="mt-6 border-t border-white/10 pt-5 font-mono text-[10px] uppercase tracking-wider text-slate-500">
-          Authorized personnel only · All access attempts are logged
+        <p className="mt-6 border-t border-white/10 pt-5 font-mono text-[10px] uppercase tracking-wider text-muted">
+          Operations console · MANI Aerospace
         </p>
       </form>
     </section>

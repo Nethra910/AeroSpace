@@ -1,11 +1,13 @@
 import { useAuth } from "../../context/AuthContext";
+import Badge from "../../components/ui/Badge";
+import Section from "../../components/ui/Section";
 
 function UserProfile() {
   const { user, loading, logout } = useAuth();
 
   if (loading) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-[#060A13] text-white">
+      <div className="flex min-h-screen items-center justify-center bg-space-950 text-ink">
         Loading profile...
       </div>
     );
@@ -13,39 +15,27 @@ function UserProfile() {
 
   if (!user) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-[#060A13] text-white">
+      <div className="flex min-h-screen items-center justify-center bg-space-950 text-ink">
         Please log in to view your profile.
       </div>
     );
   }
 
   return (
-    <section className="min-h-screen bg-[#060A13] px-6 py-16 text-white">
+    <Section number="05" eyebrow="My Account" title="My Profile" description="Manage your MANI Aerospace account." className="min-h-screen bg-space-950">
       <div className="mx-auto max-w-3xl">
-        <div className="mb-10">
-          <p className="mb-3 text-sm uppercase tracking-[0.3em] text-cyan-400">
-            My Account
-          </p>
-          <h1 className="text-4xl font-bold">My Profile</h1>
-          <p className="mt-3 text-slate-400">
-            Manage your MANI Aerospace account.
-          </p>
-        </div>
-
-        <div className="rounded-2xl border border-white/10 bg-white/5 p-8">
+        <div className="border border-white/10 bg-space-800 p-8">
           <div className="flex flex-col items-center gap-5 sm:flex-row">
             <img
               src={user.profile_image}
               alt={user.name}
-              className="h-28 w-28 rounded-full border-2 border-cyan-400 object-cover"
+              className="h-28 w-28 rounded-full border-2 border-signal object-cover"
             />
 
             <div className="text-center sm:text-left">
               <h2 className="text-2xl font-semibold">{user.name}</h2>
-              <p className="mt-2 text-slate-400">{user.email}</p>
-              <span className="mt-3 inline-block rounded-full bg-cyan-400/10 px-4 py-1 text-sm text-cyan-400">
-                Google Account
-              </span>
+              <p className="mt-2 text-muted">{user.email}</p>
+              <div className="mt-3"><Badge tone="signal">Google Account</Badge></div>
             </div>
           </div>
 
@@ -55,17 +45,17 @@ function UserProfile() {
 
           <div className="space-y-5">
             <div>
-              <p className="text-sm text-slate-400">Full Name</p>
+              <p className="text-sm text-muted">Full Name</p>
               <p className="mt-1">{user.name}</p>
             </div>
 
             <div>
-              <p className="text-sm text-slate-400">Email Address</p>
+              <p className="text-sm text-muted">Email Address</p>
               <p className="mt-1">{user.email}</p>
             </div>
 
             <div>
-              <p className="text-sm text-slate-400">User ID</p>
+              <p className="text-sm text-muted">User ID</p>
               <p className="mt-1">{user.id}</p>
             </div>
           </div>
@@ -77,13 +67,13 @@ function UserProfile() {
               logout();
               window.location.href = "/";
             }}
-            className="rounded-lg border border-red-400/30 px-5 py-3 text-red-400 transition hover:bg-red-400/10"
+            className="rounded-md border border-danger/30 px-5 py-3 text-danger transition hover:bg-danger/10"
           >
             Logout
           </button>
         </div>
       </div>
-    </section>
+    </Section>
   );
 }
 

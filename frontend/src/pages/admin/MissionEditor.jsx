@@ -35,17 +35,17 @@ function MissionEditor() {
 
   if (loading) {
     return (
-      <section className="flex min-h-screen items-center justify-center bg-[#060A13] text-[#3EE0FF]">
+      <section className="flex min-h-screen items-center justify-center bg-space-950 text-signal">
         Loading content...
       </section>
     );
   }
 
   return (
-    <section className="min-h-screen bg-[#060A13] px-6 py-16 text-white">
+    <section className="min-h-screen bg-space-950 px-6 py-16 text-white">
       <form
         onSubmit={handleSubmit}
-        className="mx-auto max-w-3xl space-y-6 rounded-xl bg-slate-900 p-8"
+        className="mx-auto max-w-3xl space-y-6 rounded-xl bg-space-800 p-8"
       >
         <h1 className="text-3xl font-bold">Edit Mission</h1>
 
@@ -56,7 +56,7 @@ function MissionEditor() {
             value={form.title}
             onChange={handleChange}
             required
-            className="mt-2 w-full rounded-md bg-[#060A13] p-3"
+            className="mt-2 w-full rounded-md bg-space-950 p-3"
           />
         </label>
 
@@ -68,15 +68,15 @@ function MissionEditor() {
             onChange={handleChange}
             rows={8}
             required
-            className="mt-2 w-full rounded-md bg-[#060A13] p-3"
+            className="mt-2 w-full rounded-md bg-space-950 p-3"
           />
         </label>
 
-        <button className="rounded-md bg-cyan-400 px-6 py-3 font-semibold text-black">
+        <button className="rounded-md bg-signal px-6 py-3 font-semibold text-black">
           Save Changes
         </button>
 
-        {message && <p className="text-cyan-400">{message}</p>}
+        {message && <p className="text-signal">{message}</p>}
       </form>
     </section>
   );

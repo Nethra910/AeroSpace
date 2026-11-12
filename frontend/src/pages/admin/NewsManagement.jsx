@@ -156,7 +156,7 @@ function NewsManagement() {
   };
 
   return (
-    <section className="min-h-screen bg-[#060A13] px-6 py-16 text-white">
+    <section className="min-h-screen bg-space-950 px-6 py-16 text-white">
       <div className="mx-auto max-w-7xl">
         <h1 className="text-4xl font-bold">Manage News</h1>
 
@@ -164,7 +164,7 @@ function NewsManagement() {
 
         <form
           onSubmit={handleSubmit}
-          className="mt-10 grid gap-4 rounded-xl border border-white/10 bg-slate-900 p-6"
+          className="mt-10 grid gap-4 rounded-xl border border-white/10 bg-space-800 p-6"
         >
           <h2 className="text-2xl font-semibold">
             {editingId ? "Edit News" : "Create News"}
@@ -181,7 +181,7 @@ function NewsManagement() {
                     onChange={handleChange}
                     rows={field === "content" ? 6 : 3}
                     required
-                    className="rounded-md border border-white/10 bg-[#060A13] p-3"
+                    className="rounded-md border border-white/10 bg-space-950 p-3"
                   />
                 ) : (
                   <input
@@ -189,7 +189,7 @@ function NewsManagement() {
                     value={form[field]}
                     onChange={handleChange}
                     required
-                    className="rounded-md border border-white/10 bg-[#060A13] p-3"
+                    className="rounded-md border border-white/10 bg-space-950 p-3"
                   />
                 )}
               </label>
@@ -202,16 +202,16 @@ function NewsManagement() {
               type="file"
               accept="image/jpeg,image/png,image/webp"
               onChange={handleImageChange}
-              className="rounded-md border border-white/10 bg-[#060A13] p-3"
+              className="rounded-md border border-white/10 bg-space-950 p-3"
             />
-            <span className="text-sm text-slate-400">
+            <span className="text-sm text-muted">
               JPG, PNG or WEBP · Maximum 5 MB
             </span>
           </label>
 
           {preview && (
             <div className="grid gap-2">
-              <p className="text-sm text-slate-400">Image Preview</p>
+              <p className="text-sm text-muted">Image Preview</p>
               <img
                 src={preview}
                 alt="News preview"
@@ -234,7 +234,7 @@ function NewsManagement() {
             <button
               type="submit"
               disabled={saving}
-              className="rounded-md bg-cyan-400 px-6 py-3 font-semibold text-black disabled:opacity-50"
+              className="rounded-md bg-signal px-6 py-3 font-semibold text-black disabled:opacity-50"
             >
               {saving ? "Saving..." : editingId ? "Update News" : "Create News"}
             </button>
@@ -254,13 +254,13 @@ function NewsManagement() {
         <h2 className="mt-16 text-2xl font-semibold">Existing News</h2>
 
         {loading ? (
-          <p className="mt-6 text-slate-400">Loading news...</p>
+          <p className="mt-6 text-muted">Loading news...</p>
         ) : (
           <div className="mt-6 grid gap-4">
             {news.map((item) => (
               <article
                 key={item.id}
-                className="flex flex-wrap items-center justify-between gap-4 rounded-lg border border-white/10 bg-slate-900 p-5"
+                className="flex flex-wrap items-center justify-between gap-4 rounded-lg border border-white/10 bg-space-800 p-5"
               >
                 <div className="flex items-center gap-4">
                   {item.image_url && (
@@ -273,7 +273,7 @@ function NewsManagement() {
 
                   <div>
                     <h3 className="font-semibold">{item.title}</h3>
-                    <p className="mt-1 text-sm text-slate-400">
+                    <p className="mt-1 text-sm text-muted">
                       {item.category} · {item.published ? "Published" : "Draft"}
                     </p>
                   </div>
@@ -289,7 +289,7 @@ function NewsManagement() {
 
                   <button
                     onClick={() => handlePublish(item.id)}
-                    className="rounded border border-cyan-400 px-3 py-2 text-cyan-400"
+                    className="rounded border border-signal px-3 py-2 text-signal"
                   >
                     {item.published ? "Unpublish" : "Publish"}
                   </button>

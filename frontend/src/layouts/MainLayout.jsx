@@ -23,7 +23,9 @@ function MainLayout() {
       <Header />
 
       <main className="site-main flex-1">
-        <Outlet />
+        <div key={location.pathname} className="page-enter">
+          <Outlet />
+        </div>
       </main>
 
       <Footer />

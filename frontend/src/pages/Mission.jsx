@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import contentService from "../services/contentService";
+import Section from "../components/ui/Section";
+import Reveal from "../components/motion/Reveal";
 
 function Mission() {
   const [mission, setMission] = useState(null);
@@ -15,30 +17,36 @@ function Mission() {
 
   if (loading) {
     return (
-      <div className="bg-[#060A13] p-20 text-white">Loading mission...</div>
+      <div className="bg-space-950 p-20 text-ink">Loading mission...</div>
     );
   }
 
   if (!mission) {
     return (
-      <div className="bg-[#060A13] p-20 text-white">
+      <div className="bg-space-950 p-20 text-ink">
         Mission content unavailable.
       </div>
     );
   }
 
   return (
-    <section className="min-h-screen bg-[#060A13] px-6 py-32 text-[#E9EEF6]">
-      <div className="mx-auto max-w-5xl">
-        <p className="font-mono uppercase tracking-widest text-[#3EE0FF]">
-          Our Purpose
+    <Section
+      number="01"
+      eyebrow="Mission"
+      title={mission.title}
+      description={mission.description}
+      className="min-h-screen bg-space-950"
+    >
+      <div className="grid gap-8 border-t border-white/10 pt-8 md:grid-cols-[180px_1fr]">
+        <p className="font-mono text-xs uppercase tracking-widest text-muted">
+          Purpose / 2036
         </p>
-        <h1 className="mt-6 text-5xl font-bold">{mission.title}</h1>
-        <p className="mt-8 max-w-3xl text-lg leading-8 text-slate-400">
-          {mission.description}
-        </p>
+        <Reveal className="max-w-3xl border-l border-signal/50 pl-6 text-lg leading-9 text-muted">
+          We build the conditions for ambitious aerospace research to become
+          practical, measurable, and useful.
+        </Reveal>
       </div>
-    </section>
+    </Section>
   );
 }
 

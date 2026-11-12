@@ -142,7 +142,7 @@ function BoardMemberManagement() {
   };
 
   return (
-    <section className="min-h-screen bg-[#060A13] px-6 py-16 text-white">
+    <section className="min-h-screen bg-space-950 px-6 py-16 text-white">
       <div className="mx-auto max-w-7xl">
         <h1 className="text-4xl font-bold">Manage Board Members</h1>
 
@@ -150,7 +150,7 @@ function BoardMemberManagement() {
 
         <form
           onSubmit={handleSubmit}
-          className="mt-10 grid gap-5 rounded-xl border border-white/10 bg-slate-900 p-6"
+          className="mt-10 grid gap-5 rounded-xl border border-white/10 bg-space-800 p-6"
         >
           <h2 className="text-2xl font-semibold">
             {editingId ? "Edit Board Member" : "Add Board Member"}
@@ -163,7 +163,7 @@ function BoardMemberManagement() {
               value={form.name}
               onChange={handleChange}
               required
-              className="rounded-md border border-white/10 bg-[#060A13] p-3"
+              className="rounded-md border border-white/10 bg-space-950 p-3"
             />
           </label>
 
@@ -173,7 +173,7 @@ function BoardMemberManagement() {
               name="role"
               value={form.role}
               onChange={handleChange}
-              className="rounded-md border border-white/10 bg-[#060A13] p-3"
+              className="rounded-md border border-white/10 bg-space-950 p-3"
             >
               <option value="">Select Role</option>
               {roles.map((role) => (
@@ -192,7 +192,7 @@ function BoardMemberManagement() {
               value={form.linkedin_url}
               onChange={handleChange}
               required
-              className="rounded-md border border-white/10 bg-[#060A13] p-3"
+              className="rounded-md border border-white/10 bg-space-950 p-3"
             />
           </label>
 
@@ -202,9 +202,9 @@ function BoardMemberManagement() {
               type="file"
               accept="image/jpeg,image/png,image/webp"
               onChange={handleImageChange}
-              className="rounded-md border border-white/10 bg-[#060A13] p-3"
+              className="rounded-md border border-white/10 bg-space-950 p-3"
             />
-            <span className="text-sm text-slate-400">
+            <span className="text-sm text-muted">
               JPG, PNG or WEBP · Maximum 5 MB
             </span>
           </label>
@@ -221,7 +221,7 @@ function BoardMemberManagement() {
             <button
               type="submit"
               disabled={saving || (!editingId && !imageFile)}
-              className="rounded-md bg-cyan-400 px-6 py-3 font-semibold text-black disabled:opacity-50"
+              className="rounded-md bg-signal px-6 py-3 font-semibold text-black disabled:opacity-50"
             >
               {saving
                 ? "Saving..."
@@ -245,15 +245,15 @@ function BoardMemberManagement() {
         <h2 className="mt-16 text-2xl font-semibold">Existing Board Members</h2>
 
         {loading ? (
-          <p className="mt-6 text-slate-400">Loading board members...</p>
+          <p className="mt-6 text-muted">Loading board members...</p>
         ) : members.length === 0 ? (
-          <p className="mt-6 text-slate-400">No board members added yet.</p>
+          <p className="mt-6 text-muted">No board members added yet.</p>
         ) : (
           <div className="mt-6 grid gap-4">
             {members.map((member) => (
               <article
                 key={member.id}
-                className="flex flex-wrap items-center justify-between gap-4 rounded-lg border border-white/10 bg-slate-900 p-5"
+                className="flex flex-wrap items-center justify-between gap-4 rounded-lg border border-white/10 bg-space-800 p-5"
               >
                 <div className="flex items-center gap-4">
                   <img
@@ -264,14 +264,14 @@ function BoardMemberManagement() {
 
                   <div>
                     <h3 className="font-semibold">{member.name}</h3>
-                    <p className="text-sm text-slate-400">
+                    <p className="text-sm text-muted">
                       {member.role || "Role not specified"}
                     </p>
                     <a
                       href={member.linkedin_url}
                       target="_blank"
                       rel="noreferrer"
-                      className="mt-1 inline-block text-sm text-cyan-400"
+                      className="mt-1 inline-block text-sm text-signal"
                     >
                       LinkedIn Profile
                     </a>

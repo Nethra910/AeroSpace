@@ -1,21 +1,16 @@
+import Reveal from "../components/motion/Reveal";
+import Section from "../components/ui/Section";
+
 function Vision2036() {
   return (
-    <section className="min-h-screen bg-[#060A13] px-6 py-28 text-white">
-      <div className="mx-auto max-w-7xl">
-        <p className="font-mono text-sm uppercase tracking-[0.3em] text-cyan-400">
-          Our Future
-        </p>
-
-        <h1 className="mt-6 text-5xl font-bold md:text-7xl">
-          Vision <span className="text-cyan-400">2036</span>
-        </h1>
-
-        <p className="mt-8 max-w-3xl text-lg leading-relaxed text-slate-400">
-          Exploring the future of aerospace through engineering, research, and
-          technological innovation.
-        </p>
-
-        <div className="mt-16 grid gap-6 md:grid-cols-3">
+    <Section
+      number="02"
+      eyebrow="Our Future"
+      title={<>Vision <span className="text-signal">2036</span></>}
+      description="Exploring the future of aerospace through engineering, research, and technological innovation."
+      className="min-h-screen bg-space-950"
+    >
+        <div className="relative mt-10 grid gap-0 border-l border-signal/40 md:grid-cols-3">
           {[
             {
               title: "Innovation",
@@ -33,21 +28,23 @@ function Vision2036() {
                 "Building a foundation for future aerospace achievements.",
             },
           ].map((item) => (
-            <article
+            <Reveal
               key={item.title}
-              className="rounded-xl border border-white/10 bg-slate-900 p-8"
+              as="article"
+              delay={["Innovation", "Research", "Excellence"].indexOf(item.title) * 90}
+              className="relative border-b border-white/10 p-8 md:border-b-0 md:border-r"
             >
-              <h2 className="text-2xl font-semibold text-cyan-400">
+              <span className="font-mono text-xs text-muted">20{36 + ["Innovation", "Research", "Excellence"].indexOf(item.title)}</span>
+              <h2 className="mt-10 text-2xl font-semibold text-signal">
                 {item.title}
               </h2>
-              <p className="mt-4 leading-relaxed text-slate-400">
+              <p className="mt-4 leading-relaxed text-muted">
                 {item.description}
               </p>
-            </article>
+            </Reveal>
           ))}
         </div>
-      </div>
-    </section>
+    </Section>
   );
 }
 

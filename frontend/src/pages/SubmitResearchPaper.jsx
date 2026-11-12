@@ -80,22 +80,22 @@ function SubmitResearchPaper() {
   };
 
   return (
-    <section className="min-h-screen bg-[#060A13] px-6 py-16 text-[#E9EEF6]">
+    <section className="min-h-screen bg-space-950 px-6 py-16 text-ink">
       <div className="mx-auto max-w-3xl">
-        <p className="mb-3 text-sm uppercase tracking-[0.3em] text-[#3EE0FF]">
+        <p className="mb-3 text-sm uppercase tracking-[0.3em] text-signal">
           Research Publications
         </p>
 
         <h1 className="mb-3 text-3xl font-bold">Submit Your Research Paper</h1>
 
-        <p className="mb-10 text-gray-400">
+        <p className="mb-10 text-muted">
           Share your research with the Mani Aerospace community. Your submission
           will be reviewed by the admin before publication.
         </p>
 
         <form
           onSubmit={handleSubmit}
-          className="space-y-6 rounded-2xl border border-[#1D2940] bg-[#0C1322] p-8"
+          className="space-y-6 rounded-2xl border border-white/10 bg-space-800 p-8"
         >
           {[
             { name: "title", label: "Paper Title", required: true },
@@ -114,7 +114,7 @@ function SubmitResearchPaper() {
                 value={formData[field.name]}
                 onChange={handleChange}
                 required={field.required}
-                className="w-full rounded-lg border border-[#1D2940] bg-[#060A13] px-4 py-3 text-white outline-none focus:border-[#3EE0FF]"
+                className="w-full rounded-lg border border-white/10 bg-space-950 px-4 py-3 text-white outline-none focus:border-signal"
               />
             </div>
           ))}
@@ -129,7 +129,7 @@ function SubmitResearchPaper() {
               required
               minLength={50}
               rows={6}
-              className="w-full rounded-lg border border-[#1D2940] bg-[#060A13] px-4 py-3 text-white outline-none focus:border-[#3EE0FF]"
+              className="w-full rounded-lg border border-white/10 bg-space-950 px-4 py-3 text-white outline-none focus:border-signal"
             />
           </div>
 
@@ -143,10 +143,10 @@ function SubmitResearchPaper() {
               accept=".pdf,application/pdf"
               required
               onChange={(e) => setPdfFile(e.target.files[0] || null)}
-              className="w-full rounded-lg border border-[#1D2940] bg-[#060A13] p-3 text-gray-300 file:mr-4 file:rounded-md file:border-0 file:bg-[#3EE0FF] file:px-4 file:py-2 file:font-semibold file:text-[#060A13]"
+              className="w-full rounded-lg border border-white/10 bg-space-950 p-3 text-muted file:mr-4 file:rounded-md file:border-0 file:bg-signal file:px-4 file:py-2 file:font-semibold file:text-space-950"
             />
 
-            <p className="mt-2 text-xs text-gray-500">
+            <p className="mt-2 text-xs text-muted">
               PDF only. Maximum file size: 20 MB.
             </p>
           </div>
@@ -166,7 +166,7 @@ function SubmitResearchPaper() {
           <button
             type="submit"
             disabled={loading || !pdfFile}
-            className="w-full rounded-lg bg-[#3EE0FF] py-3 font-bold text-[#060A13] transition hover:bg-white disabled:cursor-not-allowed disabled:opacity-50"
+            className="w-full rounded-lg bg-signal py-3 font-bold text-space-950 transition hover:bg-white disabled:cursor-not-allowed disabled:opacity-50"
           >
             {loading ? "Uploading and Submitting..." : "Submit Research Paper"}
           </button>

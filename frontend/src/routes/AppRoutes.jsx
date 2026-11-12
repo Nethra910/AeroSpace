@@ -1,4 +1,4 @@
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import MainLayout from "../layouts/MainLayout";
 import Home from "../pages/Home";
 import Mission from "../pages/Mission";
@@ -27,12 +27,14 @@ import SubmitResearchPaper from "../pages/SubmitResearchPaper";
 import MySubmissions from "../pages/MySubmissions";
 import ResearchPaperManagement from "../pages/admin/ResearchPaperManagement";
 import AdminSubmitResearchPaper from "../pages/admin/AdminSubmitResearchPaper";
-function AppRoutes() {
-  const location = useLocation();
 
+function StandalonePage({ children }) {
+  return <div className="page-enter">{children}</div>;
+}
+
+function AppRoutes() {
   return (
-    <div key={location.pathname} className="page-enter">
-      <Routes>
+    <Routes>
       <Route element={<MainLayout />}>
         <Route path="/" element={<Home />} />
         <Route path="/mission" element={<Mission />} />
@@ -59,8 +61,22 @@ function AppRoutes() {
         <Route path="/profile" element={<UserProfile />} />
       </Route>
 
-      <Route path="/login" element={<UserLogin />} />
-      <Route path="/admin/login" element={<Login />} />
+      <Route
+        path="/login"
+        element={
+          <StandalonePage>
+            <UserLogin />
+          </StandalonePage>
+        }
+      />
+      <Route
+        path="/admin/login"
+        element={
+          <StandalonePage>
+            <Login />
+          </StandalonePage>
+        }
+      />
 
       <Route element={<ProtectedRoute />}>
         <Route path="/admin/dashboard" element={<Dashboard />} />
@@ -83,8 +99,7 @@ function AppRoutes() {
       />
 
       <Route path="*" element={<NotFound />} />
-      </Routes>
-    </div>
+    </Routes>
   );
 }
 
