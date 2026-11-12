@@ -6,17 +6,43 @@ function UserLogin() {
   const redirectTo = location.state?.from?.pathname || "/";
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-[#060A13] px-6">
-      <div className="w-full max-w-md rounded-2xl border border-white/10 bg-white/5 p-8 text-center text-white">
-        <h1 className="mb-3 text-3xl font-bold">Welcome to MANI Aerospace</h1>
+    <div className="page-grid relative flex min-h-screen items-center justify-center overflow-hidden bg-[#060A13] px-6 py-16">
+      <div className="pointer-events-none absolute left-8 top-8 font-mono text-[10px] uppercase tracking-[0.25em] text-slate-600 md:left-12 md:top-12">
+        AUTH / USER ACCESS / 01
+      </div>
+      <div className="pointer-events-none absolute bottom-8 right-8 font-mono text-[10px] uppercase tracking-[0.25em] text-slate-600 md:bottom-12 md:right-12">
+        MANI-AE // SECURE CHANNEL
+      </div>
 
-        <p className="mb-8 text-gray-400">
+      <div className="relative w-full max-w-md border border-white/10 bg-[#111a26] p-8 text-white shadow-2xl md:p-10">
+        <div className="mb-8 flex items-center justify-between border-b border-white/10 pb-5">
+          <div className="font-mono text-xs font-semibold tracking-[0.18em]">
+            MANI <span className="text-cyan-400">/ AEROSPACE</span>
+          </div>
+          <span className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-widest text-[#7ed39c]">
+            <span className="h-1.5 w-1.5 rounded-full bg-[#7ed39c]" />
+            Online
+          </span>
+        </div>
+
+        <p className="font-mono text-xs uppercase tracking-[0.2em] text-[#61d6d1]">
+          Research network
+        </p>
+        <h1 className="mb-3 mt-4 text-3xl font-bold tracking-tight">
+          Welcome to MANI Aerospace
+        </h1>
+
+        <p className="mb-8 text-sm leading-7 text-gray-400">
           Sign in or create an account to access research paper features.
         </p>
 
-        <div className="flex justify-center">
+        <div className="flex min-h-12 justify-center">
           <GoogleLoginButton redirectTo={redirectTo} />
         </div>
+
+        <p className="mt-8 border-t border-white/10 pt-5 font-mono text-[10px] uppercase leading-5 tracking-wider text-slate-500">
+          Continue with Google to access submissions and your research profile.
+        </p>
       </div>
     </div>
   );

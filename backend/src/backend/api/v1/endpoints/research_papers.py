@@ -67,17 +67,14 @@ def get_optional_identity(
             ).first()
 
             if not user:
-                raise HTTPException(
-                    status_code=401,
-                    detail="User not found or inactive",
-                )
+                return None
 
             return {"type": "user", "id": user.id}
 
         if payload.get("sub") == settings.ADMIN_USERNAME:
             return {"type": "admin", "username": payload["sub"]}
 
-        raise HTTPException(status_code=401, detail="Invalid token")
+        return None
 
     except (jwt.InvalidTokenError, ValueError, TypeError):
         raise HTTPException(
