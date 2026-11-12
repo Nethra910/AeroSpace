@@ -68,19 +68,29 @@ function Dashboard() {
           </Link>
           <Link
             to="/admin/research-papers"
-            className="block rounded-xl border border-[#1D2940] bg-[#0C1322] p-6 transition hover:border-[#3EE0FF]"
+            className="rounded-xl border border-[#1D2940] bg-[#0C1322] p-6 transition hover:border-[#3EE0FF]"
           >
             <h2 className="text-xl font-semibold text-white">
               Research Papers
             </h2>
 
             <p className="mt-2 text-gray-400">
-              Review, approve, or reject user-submitted research papers.
+              Publish your own research papers instantly, review user
+              submissions, and manage published papers.
             </p>
 
             <span className="mt-4 inline-block text-[#3EE0FF]">
               Manage Papers →
             </span>
+          </Link>
+          <Link
+            to="/admin/research-papers/publish"
+            className="rounded-xl border border-white/10 bg-slate-900 p-8 hover:border-cyan-400"
+          >
+            <h2 className="text-xl font-semibold">Publish Research Paper</h2>
+            <p className="mt-3 text-slate-400">
+              Submit and publish research papers directly as admin.
+            </p>
           </Link>
         </div>
       </div>

@@ -26,6 +26,7 @@ import UserProfile from "../pages/auth/UserProfile";
 import SubmitResearchPaper from "../pages/SubmitResearchPaper";
 import MySubmissions from "../pages/MySubmissions";
 import ResearchPaperManagement from "../pages/admin/ResearchPaperManagement";
+import AdminSubmitResearchPaper from "../pages/admin/AdminSubmitResearchPaper";
 function AppRoutes() {
   return (
     <Routes>
@@ -73,6 +74,10 @@ function AppRoutes() {
           element={<ResearchPaperManagement />}
         />
       </Route>
+      <Route
+        path="/admin/research-papers/publish"
+        element={<AdminSubmitResearchPaper />}
+      />
 
       <Route path="*" element={<NotFound />} />
     </Routes>

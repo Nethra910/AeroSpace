@@ -4,12 +4,14 @@ import {
   reviewResearchPaper,
   deleteResearchPaper,
 } from "../../services/researchPaperService";
+import { useNavigate } from "react-router-dom";
 function ResearchPaperManagement() {
   const [papers, setPapers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [processingId, setProcessingId] = useState(null);
   const [rejectionReason, setRejectionReason] = useState({});
+  const navigate = useNavigate();
 
   const [activeStatus, setActiveStatus] = useState("all");
 
@@ -92,7 +94,17 @@ function ResearchPaperManagement() {
   return (
     <div className="min-h-screen bg-[#060A13] px-6 py-10 text-white">
       <div className="mx-auto max-w-7xl">
-        <h1 className="mb-8 text-3xl font-bold">Research Paper Management</h1>
+        {/* <h1 className="mb-8 text-3xl font-bold">Research Paper Management</h1> */}
+        <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
+          <h1 className="text-3xl font-bold">Research Paper Management</h1>
+
+          <button
+            onClick={() => navigate("/admin/research-papers/publish")}
+            className="rounded-lg bg-[#3EE0FF] px-5 py-3 font-semibold text-[#060A13] hover:bg-cyan-300"
+          >
+            + Publish Research Paper
+          </button>
+        </div>
         <div className="mb-8 flex flex-wrap gap-3">
           {["all", "pending", "approved", "rejected"].map((status) => (
             <button

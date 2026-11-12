@@ -85,3 +85,22 @@ export const deleteResearchPaper = async (paperId) => {
 
   return response.data;
 };
+
+export const uploadAdminResearchPaperPdf = async (file) => {
+  const formData = new FormData();
+  formData.append("file", file);
+
+  const response = await api.post("/admin/research-papers/upload", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+
+  return response.data;
+};
+
+export const submitAdminResearchPaper = async (paperData) => {
+  const response = await api.post("/admin/research-papers/", paperData);
+
+  return response.data;
+};

@@ -1,9 +1,11 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import authService from "../../services/authService";
-import { useSearchParams } from "react-router-dom";
 
 function Login() {
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(
@@ -12,9 +14,6 @@ function Login() {
       : "",
   );
   const [loading, setLoading] = useState(false);
-  const [searchParams] = useSearchParams();
-
-  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();

@@ -179,10 +179,7 @@ def submit_user_paper(
     return paper
 
 
-@admin_router.post(
-    "/",
-    response_model=ResearchPaperResponse,
-)
+@admin_router.post("/", response_model=ResearchPaperResponse)
 def submit_admin_paper(
     data: ResearchPaperCreate,
     admin: dict = Depends(get_current_admin),
@@ -195,6 +192,7 @@ def submit_admin_paper(
         affiliation=data.affiliation,
         keywords=data.keywords,
         pdf_url=data.pdf_url,
+        cloudinary_public_id=data.cloudinary_public_id,
         submitted_by=None,
         is_admin_submission=True,
         status="approved",
@@ -207,7 +205,6 @@ def submit_admin_paper(
     db.refresh(paper)
 
     return paper
-
 
 @public_router.get("/")
 def get_published_papers(
@@ -711,38 +708,7 @@ def delete_research_paper(
     ).first()
 
     if not paper:
-        raise HTTPException(
-            status_code=404,
-            detail="Research paper not found",
-        )
-
-    if paper.status == "pending":
-        raise HTTPException(
-            status_code=400,
-            detail="Pending papers must be reviewed first",
-        )
-
-    db.delete(paper)
-    db.commit()
-
-    return {"message": "Research paper deleted successfully"}
-
-
-@admin_router.delete("/{paper_id}")
-def delete_research_paper(
-    paper_id: int,
-    db: Session = Depends(get_db),
-    current_admin: dict = Depends(get_current_admin),
-):
-    paper = db.query(ResearchPaper).filter(
-        ResearchPaper.id == paper_id
-    ).first()
-
-    if not paper:
-        raise HTTPException(
-            status_code=404,
-            detail="Research paper not found",
-        )
+        raise HTTPException(status_code=404, detail="Research paper not found")
 
     if paper.status == "pending":
         raise HTTPException(
@@ -760,18 +726,18 @@ def delete_research_paper(
             if result.get("result") not in ("ok", "not found"):
                 raise HTTPException(
                     status_code=502,
-                    detail="Failed to delete PDF from Cloudinary",
+                    detail="Cloudinary PDF deletion failed",
                 )
-
         except HTTPException:
             raise
         except Exception:
             raise HTTPException(
                 status_code=502,
-                detail="Cloudinary deletion failed",
+                detail="Cloudinary PDF deletion failed",
             )
 
     db.delete(paper)
     db.commit()
 
     return {"message": "Research paper and PDF deleted successfully"}
+
