@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import teamMemberService from "../services/teamMemberService";
+import Section from "../components/ui/Section";
+import Reveal from "../components/motion/Reveal";
 
 function TeamSimha() {
   const [members, setMembers] = useState([]);
@@ -22,15 +24,13 @@ function TeamSimha() {
   }, []);
 
   return (
-    <section className="min-h-screen bg-[#0A101D] px-6 py-28 text-white">
-      <div className="mx-auto max-w-7xl">
-        <p className="font-mono text-sm uppercase tracking-widest text-cyan-400">
-          Our Team
-        </p>
-
-        <h1 className="mt-6 text-5xl font-bold md:text-7xl">
-          Team <span className="text-cyan-400">SIMHA</span>
-        </h1>
+    <Section
+      number="06"
+      eyebrow="Crew Manifest"
+      title={<>Team <span className="text-signal">SIMHA</span></>}
+      description="Team SIMHA brings together aerospace engineering, research, and innovation to explore next-generation technologies and future aerospace possibilities."
+      className="min-h-screen bg-space-900"
+    >
 
         <div className="mt-10 grid gap-10 md:grid-cols-2 md:items-center">
           <div>
@@ -38,15 +38,11 @@ function TeamSimha() {
               Engineering the Future Together
             </h2>
 
-            <p className="mt-6 leading-relaxed text-slate-400">
-              Team SIMHA brings together aerospace engineering, research, and
-              innovation to explore next-generation technologies and future
-              aerospace possibilities.
-            </p>
+            <p className="font-mono text-xs uppercase tracking-widest text-muted">Manifest / Active roster</p>
           </div>
 
-          <div className="flex min-h-80 items-center justify-center rounded-xl border border-white/10 bg-slate-900">
-            <span className="text-6xl font-bold tracking-widest text-cyan-400">
+          <div className="flex min-h-80 items-center justify-center border border-white/10 bg-space-950">
+            <span className="text-6xl font-bold tracking-widest text-signal">
               SIMHA
             </span>
           </div>
@@ -56,19 +52,21 @@ function TeamSimha() {
           <h2 className="text-3xl font-semibold">Meet Our Team</h2>
 
           {loading ? (
-            <p className="mt-6 text-slate-400">Loading team members...</p>
+            <p className="mt-6 text-muted">Loading team members...</p>
           ) : error ? (
             <p className="mt-6 text-red-400">{error}</p>
           ) : members.length === 0 ? (
-            <p className="mt-6 text-slate-400">
+            <p className="mt-6 text-muted">
               Team member profiles will be added soon.
             </p>
           ) : (
             <div className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-              {members.map((member) => (
-                <article
+              {members.map((member, index) => (
+                <Reveal
                   key={member.id}
-                  className="overflow-hidden rounded-xl border border-white/10 bg-slate-900"
+                  as="article"
+                  delay={index * 80}
+                  className="overflow-hidden border border-white/10 bg-space-800"
                 >
                   {member.image_url ? (
                     <img
@@ -77,8 +75,8 @@ function TeamSimha() {
                       className="h-72 w-full object-cover"
                     />
                   ) : (
-                    <div className="flex h-72 items-center justify-center bg-slate-800">
-                      <span className="text-5xl font-bold text-cyan-400">
+                    <div className="flex h-72 items-center justify-center bg-space-900">
+                    <span className="text-5xl font-bold text-signal">
                         {member.name.charAt(0)}
                       </span>
                     </div>
@@ -86,22 +84,22 @@ function TeamSimha() {
 
                   <div className="p-6">
                     <h3 className="text-xl font-semibold">{member.name}</h3>
-                    <p className="mt-2 text-cyan-400">{member.designation}</p>
-                    <p className="mt-2 text-sm text-slate-400">
+                    <p className="mt-2 font-mono text-xs uppercase tracking-wider text-signal">{member.designation}</p>
+                    <p className="mt-2 text-sm text-muted">
                       {member.specialization}
                     </p>
-                    <p className="mt-4 leading-relaxed text-slate-300">
+                    <p className="mt-4 leading-relaxed text-muted">
                       {member.bio}
                     </p>
 
                     {member.education && (
-                      <p className="mt-4 text-sm text-slate-400">
+                      <p className="mt-4 text-sm text-muted">
                         Education: {member.education}
                       </p>
                     )}
 
                     {member.skills && (
-                      <p className="mt-2 text-sm text-slate-400">
+                      <p className="mt-2 text-sm text-muted">
                         Skills: {member.skills}
                       </p>
                     )}
@@ -111,19 +109,18 @@ function TeamSimha() {
                         href={member.linkedin_url}
                         target="_blank"
                         rel="noreferrer"
-                        className="mt-4 inline-block text-cyan-400 hover:underline"
+                        className="mt-4 inline-block text-signal hover:underline"
                       >
                         LinkedIn Profile →
                       </a>
                     )}
                   </div>
-                </article>
+                </Reveal>
               ))}
             </div>
           )}
         </div>
-      </div>
-    </section>
+    </Section>
   );
 }
 

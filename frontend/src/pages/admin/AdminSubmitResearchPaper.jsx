@@ -59,24 +59,24 @@ function AdminSubmitResearchPaper() {
   };
 
   return (
-    <section className="min-h-screen bg-[#060A13] px-6 py-12 text-white">
+    <section className="min-h-screen bg-space-950 px-6 py-12 text-white">
       <div className="mx-auto max-w-3xl">
         <button
           onClick={() => navigate("/admin/dashboard")}
-          className="mb-8 text-[#3EE0FF]"
+          className="mb-8 text-signal"
         >
           ← Back to Dashboard
         </button>
 
         <h1 className="mb-3 text-3xl font-bold">Publish Research Paper</h1>
 
-        <p className="mb-8 text-gray-400">
+        <p className="mb-8 text-muted">
           Admin submissions are published immediately without approval.
         </p>
 
         <form
           onSubmit={handleSubmit}
-          className="space-y-5 rounded-xl border border-white/10 bg-[#0C1322] p-8"
+          className="space-y-5 rounded-xl border border-white/10 bg-space-800 p-8"
         >
           {[
             ["title", "Paper Title"],
@@ -91,7 +91,7 @@ function AdminSubmitResearchPaper() {
                 value={formData[name]}
                 onChange={handleChange}
                 required
-                className="w-full rounded-lg border border-white/10 bg-[#060A13] p-3 outline-none focus:border-[#3EE0FF]"
+                className="w-full rounded-lg border border-white/10 bg-space-950 p-3 outline-none focus:border-signal"
               />
             </div>
           ))}
@@ -104,7 +104,7 @@ function AdminSubmitResearchPaper() {
               onChange={handleChange}
               required
               rows={6}
-              className="w-full rounded-lg border border-white/10 bg-[#060A13] p-3 outline-none focus:border-[#3EE0FF]"
+              className="w-full rounded-lg border border-white/10 bg-space-950 p-3 outline-none focus:border-signal"
             />
           </div>
 
@@ -115,9 +115,9 @@ function AdminSubmitResearchPaper() {
               accept=".pdf,application/pdf"
               onChange={(e) => setFile(e.target.files[0] || null)}
               required
-              className="w-full rounded-lg border border-white/10 bg-[#060A13] p-3"
+              className="w-full rounded-lg border border-white/10 bg-space-950 p-3"
             />
-            <p className="mt-2 text-sm text-gray-500">
+            <p className="mt-2 text-sm text-muted">
               Maximum file size: 20 MB.
             </p>
           </div>
@@ -127,7 +127,7 @@ function AdminSubmitResearchPaper() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full rounded-lg bg-[#3EE0FF] p-3 font-semibold text-[#060A13] disabled:opacity-50"
+            className="w-full rounded-lg bg-signal p-3 font-semibold text-space-950 disabled:opacity-50"
           >
             {loading ? "Publishing..." : "Publish Research Paper"}
           </button>

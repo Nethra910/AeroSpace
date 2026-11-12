@@ -29,3 +29,10 @@ Motion is short, directional, and functional: opacity, transforms, and
 clip-path only. Page entry and reveals stay under 600ms, hover states are
 150–250ms, and reduced-motion users receive a simple opacity transition.
 Nothing delays access to content or interaction.
+
+## Shared UI
+
+The shared presentation layer includes `Section`, `Panel`, `Badge`, `Skeleton`,
+and `Reveal` primitives. Data, auth, routing, and form behavior remain in the
+existing page and service modules; these primitives only establish visual
+hierarchy, status language, and motion.

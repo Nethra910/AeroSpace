@@ -69,7 +69,7 @@ function ResearchPaperDetails() {
 
   if (loading || authLoading) {
     return (
-      <div className="min-h-screen bg-[#060A13] flex items-center justify-center text-[#3EE0FF]">
+      <div className="min-h-screen bg-space-950 flex items-center justify-center text-signal">
         Loading research paper...
       </div>
     );
@@ -77,11 +77,11 @@ function ResearchPaperDetails() {
 
   if (error || !paper) {
     return (
-      <div className="min-h-screen bg-[#060A13] text-white flex flex-col items-center justify-center px-6">
+      <div className="min-h-screen bg-space-950 text-white flex flex-col items-center justify-center px-6">
         <p className="text-red-400 mb-5">
           {error || "Research paper not found."}
         </p>
-        <Link to="/published-papers" className="text-[#3EE0FF] hover:underline">
+        <Link to="/published-papers" className="text-signal hover:underline">
           Back to Publications
         </Link>
       </div>
@@ -89,17 +89,17 @@ function ResearchPaperDetails() {
   }
 
   return (
-    <section className="min-h-screen bg-[#060A13] px-6 py-16 text-[#E9EEF6]">
+    <section className="min-h-screen bg-space-950 px-6 py-16 text-ink">
       <div className="mx-auto max-w-5xl">
         <Link
           to="/published-papers"
-          className="text-sm text-[#3EE0FF] hover:underline"
+          className="text-sm text-signal hover:underline"
         >
           ← Back to Publications
         </Link>
 
-        <div className="mt-8 rounded-2xl border border-[#1D2940] bg-[#0C1322] p-8">
-          <p className="mb-4 text-sm uppercase tracking-widest text-[#3EE0FF]">
+        <div className="mt-8 rounded-2xl border border-white/10 bg-space-800 p-8">
+          <p className="mb-4 text-sm uppercase tracking-widest text-signal">
             Research Publication
           </p>
 
@@ -107,7 +107,7 @@ function ResearchPaperDetails() {
             {paper.title}
           </h1>
 
-          <div className="mt-6 space-y-2 text-sm text-gray-400">
+          <div className="mt-6 space-y-2 text-sm text-muted">
             <p>
               <span className="text-white">Authors:</span> {paper.authors}
             </p>
@@ -131,20 +131,20 @@ function ResearchPaperDetails() {
             </p>
           </div>
 
-          <div className="my-8 border-t border-[#1D2940]" />
+          <div className="my-8 border-t border-white/10" />
 
           <h2 className="mb-4 text-xl font-semibold">Abstract</h2>
 
-          <p className="whitespace-pre-line leading-8 text-gray-300">
+          <p className="whitespace-pre-line leading-8 text-muted">
             {paper.abstract}
           </p>
 
           <div className="mt-8 flex flex-wrap items-center gap-5">
-            <span className="text-sm text-gray-400">
+            <span className="text-sm text-muted">
               ♥ {paper.likes_count} Likes
             </span>
 
-            <span className="text-sm text-gray-400">
+            <span className="text-sm text-muted">
               {paper.comments_count} Comments
             </span>
 
@@ -152,20 +152,20 @@ function ResearchPaperDetails() {
               href={paper.pdf_url}
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-lg bg-[#3EE0FF] px-5 py-2.5 font-semibold text-[#060A13] transition hover:bg-white"
+              className="rounded-lg bg-signal px-5 py-2.5 font-semibold text-space-950 transition hover:bg-white"
             >
               View / Download PDF
             </a>
           </div>
         </div>
 
-        <div className="mt-10 rounded-2xl border border-[#1D2940] bg-[#0C1322] p-8">
+        <div className="mt-10 rounded-2xl border border-white/10 bg-space-800 p-8">
           <h2 className="mb-6 text-2xl font-semibold">
             Discussion ({comments.length})
           </h2>
 
           {comments.length === 0 ? (
-            <p className="text-gray-400">
+            <p className="text-muted">
               No comments yet. Start the discussion!
             </p>
           ) : (
@@ -173,18 +173,18 @@ function ResearchPaperDetails() {
               {comments.map((item) => (
                 <div
                   key={item.id}
-                  className="border-b border-[#1D2940] pb-5 last:border-0"
+                  className="border-b border-white/10 pb-5 last:border-0"
                 >
-                  <p className="mb-2 text-xs text-[#3EE0FF]">
+                  <p className="mb-2 text-xs text-signal">
                     {item.user_name ||
                       (item.admin_username
                         ? `Admin: ${item.admin_username}`
                         : "Unknown User")}
                   </p>
 
-                  <p className="leading-7 text-gray-300">{item.comment}</p>
+                  <p className="leading-7 text-muted">{item.comment}</p>
 
-                  <p className="mt-2 text-xs text-gray-500">
+                  <p className="mt-2 text-xs text-muted">
                     {new Date(item.created_at).toLocaleString()}
                   </p>
                 </div>
@@ -200,19 +200,19 @@ function ResearchPaperDetails() {
                 placeholder="Write your comment..."
                 rows={4}
                 maxLength={3000}
-                className="w-full rounded-lg border border-[#1D2940] bg-[#060A13] p-4 text-white outline-none focus:border-[#3EE0FF]"
+                className="w-full rounded-lg border border-white/10 bg-space-950 p-4 text-white outline-none focus:border-signal"
               />
 
               <button
                 type="submit"
                 disabled={submitting || !comment.trim()}
-                className="rounded-lg bg-[#3EE0FF] px-6 py-3 font-semibold text-[#060A13] disabled:cursor-not-allowed disabled:opacity-50"
+                className="rounded-lg bg-signal px-6 py-3 font-semibold text-space-950 disabled:cursor-not-allowed disabled:opacity-50"
               >
                 {submitting ? "Posting..." : "Post Comment"}
               </button>
             </form>
           ) : (
-            <p className="mt-8 text-sm text-gray-400">
+            <p className="mt-8 text-sm text-muted">
               Sign in with Google to join the discussion.
             </p>
           )}

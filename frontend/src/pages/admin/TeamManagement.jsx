@@ -166,7 +166,7 @@ function TeamManagement() {
   ];
 
   return (
-    <section className="min-h-screen bg-[#060A13] px-6 py-16 text-white">
+    <section className="min-h-screen bg-space-950 px-6 py-16 text-white">
       <div className="mx-auto max-w-7xl">
         <h1 className="text-4xl font-bold">Manage Team SIMHA</h1>
 
@@ -174,7 +174,7 @@ function TeamManagement() {
 
         <form
           onSubmit={handleSubmit}
-          className="mt-10 grid gap-4 rounded-xl border border-white/10 bg-slate-900 p-6"
+          className="mt-10 grid gap-4 rounded-xl border border-white/10 bg-space-800 p-6"
         >
           <h2 className="text-2xl font-semibold">
             {editingId ? "Edit Member" : "Add Team Member"}
@@ -190,7 +190,7 @@ function TeamManagement() {
                   onChange={handleChange}
                   rows={5}
                   required={field.required}
-                  className="rounded-md border border-white/10 bg-[#060A13] p-3"
+                  className="rounded-md border border-white/10 bg-space-950 p-3"
                 />
               ) : (
                 <input
@@ -198,7 +198,7 @@ function TeamManagement() {
                   value={form[field.name]}
                   onChange={handleChange}
                   required={field.required}
-                  className="rounded-md border border-white/10 bg-[#060A13] p-3"
+                  className="rounded-md border border-white/10 bg-space-950 p-3"
                 />
               )}
             </label>
@@ -210,9 +210,9 @@ function TeamManagement() {
               type="file"
               accept="image/jpeg,image/png,image/webp"
               onChange={handleImageChange}
-              className="rounded-md border border-white/10 bg-[#060A13] p-3"
+              className="rounded-md border border-white/10 bg-space-950 p-3"
             />
-            <span className="text-sm text-slate-400">
+            <span className="text-sm text-muted">
               JPG, PNG or WEBP · Maximum 5 MB
             </span>
           </label>
@@ -229,7 +229,7 @@ function TeamManagement() {
             <button
               type="submit"
               disabled={saving}
-              className="rounded-md bg-cyan-400 px-6 py-3 font-semibold text-black disabled:opacity-50"
+              className="rounded-md bg-signal px-6 py-3 font-semibold text-black disabled:opacity-50"
             >
               {saving
                 ? "Saving..."
@@ -253,13 +253,13 @@ function TeamManagement() {
         <h2 className="mt-16 text-2xl font-semibold">Existing Members</h2>
 
         {loading ? (
-          <p className="mt-6 text-slate-400">Loading members...</p>
+          <p className="mt-6 text-muted">Loading members...</p>
         ) : (
           <div className="mt-6 grid gap-4">
             {members.map((member) => (
               <article
                 key={member.id}
-                className="flex flex-wrap items-center justify-between gap-4 rounded-lg border border-white/10 bg-slate-900 p-5"
+                className="flex flex-wrap items-center justify-between gap-4 rounded-lg border border-white/10 bg-space-800 p-5"
               >
                 <div className="flex items-center gap-4">
                   {member.image_url && (
@@ -272,7 +272,7 @@ function TeamManagement() {
 
                   <div>
                     <h3 className="font-semibold">{member.name}</h3>
-                    <p className="text-sm text-slate-400">
+                    <p className="text-sm text-muted">
                       {member.designation} · {member.specialization}
                     </p>
                     <p className="mt-1 text-sm">
@@ -291,7 +291,7 @@ function TeamManagement() {
 
                   <button
                     onClick={() => handleStatus(member.id)}
-                    className="rounded border border-cyan-400 px-3 py-2 text-cyan-400"
+                    className="rounded border border-signal px-3 py-2 text-signal"
                   >
                     {member.is_active ? "Deactivate" : "Activate"}
                   </button>

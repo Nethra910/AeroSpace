@@ -420,7 +420,7 @@ function Segmented({ options, value, onChange, label }) {
     <div
       role="group"
       aria-label={label}
-      className="flex overflow-hidden rounded-lg border border-white/10 bg-slate-950/70 p-0.5 backdrop-blur-md"
+      className="flex overflow-hidden rounded-lg border border-white/10 bg-space-950/70 p-0.5 backdrop-blur-md"
     >
       {options.map((opt) => {
         const active = opt.id === value;
@@ -433,13 +433,13 @@ function Segmented({ options, value, onChange, label }) {
             className={`rounded-md px-3 py-1.5 text-xs font-medium transition-colors md:text-sm ${
               active
                 ? "bg-cyan-400 text-slate-950 shadow-[0_0_18px_rgba(62,224,255,0.45)]"
-                : "text-slate-300 hover:bg-white/10"
+                : "text-muted hover:bg-white/10"
             }`}
           >
             {opt.label}
             {opt.key && (
               <span
-                className={`ml-1.5 hidden text-[10px] md:inline ${active ? "text-slate-700" : "text-slate-500"}`}
+                className={`ml-1.5 hidden text-[10px] md:inline ${active ? "text-slate-700" : "text-muted"}`}
               >
                 {opt.key}
               </span>
@@ -458,7 +458,7 @@ function LayerToggle({ label, on, onToggle }) {
       role="switch"
       aria-checked={on}
       onClick={onToggle}
-      className="flex w-full items-center justify-between gap-4 py-1 text-left text-xs text-slate-300 hover:text-white"
+      className="flex w-full items-center justify-between gap-4 py-1 text-left text-xs text-muted hover:text-white"
     >
       <span>{label}</span>
       <span
@@ -475,14 +475,14 @@ function LayerToggle({ label, on, onToggle }) {
 function Stat({ label, value, unit, accent }) {
   return (
     <div className="rounded-lg border border-white/5 bg-white/[0.03] p-3">
-      <p className="text-[10px] uppercase tracking-[0.18em] text-slate-500">
+      <p className="text-[10px] uppercase tracking-[0.18em] text-muted">
         {label}
       </p>
       <p
-        className={`mt-1 font-mono text-lg tabular-nums ${accent ? "text-[#3EE0FF]" : "text-[#E9EEF6]"}`}
+        className={`mt-1 font-mono text-lg tabular-nums ${accent ? "text-signal" : "text-ink"}`}
       >
         {value}
-        {unit && <span className="ml-1 text-xs text-slate-500">{unit}</span>}
+        {unit && <span className="ml-1 text-xs text-muted">{unit}</span>}
       </p>
     </div>
   );
@@ -1318,9 +1318,9 @@ function Simulation() {
 
   /* --------------------------------- Render -------------------------------- */
   return (
-    <section className="min-h-screen bg-[#060A13] px-4 py-10 text-[#E9EEF6] md:px-8">
+    <section className="min-h-screen bg-space-950 px-4 py-10 text-ink md:px-8">
       <div className="mx-auto max-w-7xl">
-        <p className="mb-3 text-sm uppercase tracking-[0.3em] text-[#3EE0FF]">
+        <p className="mb-3 text-sm uppercase tracking-[0.3em] text-signal">
           Mission Control
         </p>
 
@@ -1328,7 +1328,7 @@ function Simulation() {
           Live 3D Simulation
         </h1>
 
-        <p className="mb-8 max-w-2xl text-slate-400">
+        <p className="mb-8 max-w-2xl text-muted">
           Explore the orbital environment and interact with the simulation. Drag
           to orbit, scroll to zoom, and select the station to lock on to its
           telemetry.
@@ -1340,7 +1340,7 @@ function Simulation() {
           tabIndex={0}
           onKeyDown={onKeyDown}
           onPointerDown={() => stageRef.current?.focus({ preventScroll: true })}
-          className="relative h-[540px] overflow-hidden rounded-2xl border border-[#1D2940] bg-[#060A13] shadow-[0_0_90px_-25px_rgba(62,224,255,0.35)] outline-none focus-visible:ring-1 focus-visible:ring-cyan-400/60 md:h-[680px] [&:fullscreen]:h-screen [&:fullscreen]:rounded-none [&:fullscreen]:border-0"
+          className="relative h-[540px] overflow-hidden rounded-2xl border border-white/10 bg-space-950 shadow-[0_0_90px_-25px_rgba(62,224,255,0.35)] outline-none focus-visible:ring-1 focus-visible:ring-cyan-400/60 md:h-[680px] [&:fullscreen]:h-screen [&:fullscreen]:rounded-none [&:fullscreen]:border-0"
         >
           <div ref={mountRef} className="absolute inset-0" />
 
@@ -1349,13 +1349,13 @@ function Simulation() {
 
           {/* Loader */}
           <div
-            className={`absolute inset-0 grid place-items-center bg-[#060A13] transition-opacity duration-700 ${
+            className={`absolute inset-0 grid place-items-center bg-space-950 transition-opacity duration-700 ${
               ready ? "pointer-events-none opacity-0" : "opacity-100"
             }`}
           >
             <div className="text-center">
-              <div className="mx-auto mb-4 h-10 w-10 animate-spin rounded-full border-2 border-cyan-400/20 border-t-cyan-400" />
-              <p className="text-xs uppercase tracking-[0.3em] text-slate-400">
+              <div className="mx-auto mb-4 h-10 w-10 animate-spin rounded-full border-2 border-signal/20 border-t-cyan-400" />
+              <p className="text-xs uppercase tracking-[0.3em] text-muted">
                 Initialising orbital environment
               </p>
             </div>
@@ -1366,54 +1366,54 @@ function Simulation() {
             ref={labelRef}
             className="pointer-events-none absolute left-0 top-0 opacity-0 transition-opacity duration-200"
           >
-            <div className="rounded-md border border-cyan-400/40 bg-slate-950/80 px-2.5 py-1 backdrop-blur-md">
-              <p className="font-mono text-[11px] font-semibold tracking-wider text-[#3EE0FF]">
+            <div className="rounded-md border border-signal/40 bg-space-950/80 px-2.5 py-1 backdrop-blur-md">
+              <p className="font-mono text-[11px] font-semibold tracking-wider text-signal">
                 SIMHA-01
               </p>
-              <p className="text-[10px] text-slate-400">
+              <p className="text-[10px] text-muted">
                 LEO · 51.6° inclination
               </p>
             </div>
           </div>
 
           {/* Status HUD */}
-          <div className="absolute left-4 top-4 w-48 rounded-xl border border-white/10 bg-slate-950/75 p-4 font-mono text-[11px] leading-relaxed backdrop-blur-md">
-            <p className="mb-2 flex items-center gap-2 font-sans text-[11px] font-semibold tracking-[0.2em] text-[#3EE0FF]">
+          <div className="absolute left-4 top-4 w-48 rounded-xl border border-white/10 bg-space-950/75 p-4 font-mono text-[11px] leading-relaxed backdrop-blur-md">
+            <p className="mb-2 flex items-center gap-2 font-sans text-[11px] font-semibold tracking-[0.2em] text-signal">
               <span className="relative flex h-2 w-2">
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
                 <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
               </span>
               SIMULATION STATUS
             </p>
-            <p className="flex justify-between text-slate-400">
+            <p className="flex justify-between text-muted">
               STATUS{" "}
               <span className="text-emerald-300">
                 {speed === 0 ? "PAUSED" : "OPERATIONAL"}
               </span>
             </p>
-            <p className="flex justify-between text-slate-400">
+            <p className="flex justify-between text-muted">
               ORBIT{" "}
               <span className="text-slate-100">
                 {telemetry ? `#${telemetry.orbit} ACTIVE` : "ACTIVE"}
               </span>
             </p>
-            <p className="flex justify-between text-slate-400">
+            <p className="flex justify-between text-muted">
               OBJECTS <span className="text-slate-100">01</span>
             </p>
-            <p className="flex justify-between text-slate-400">
+            <p className="flex justify-between text-muted">
               RATE{" "}
               <span className="text-slate-100">
                 {speed === 0 ? "—" : `${speed}×`}
               </span>
             </p>
-            <p className="mt-2 border-t border-white/10 pt-2 text-sm tabular-nums text-[#3EE0FF]">
+            <p className="mt-2 border-t border-white/10 pt-2 text-sm tabular-nums text-signal">
               {telemetry ? formatMET(telemetry.met) : "T+00:00:00"}
             </p>
           </div>
 
           {/* Layers */}
-          <div className="absolute right-4 top-4 hidden w-44 rounded-xl border border-white/10 bg-slate-950/75 p-4 backdrop-blur-md sm:block">
-            <p className="mb-2 text-[11px] font-semibold tracking-[0.2em] text-[#3EE0FF]">
+          <div className="absolute right-4 top-4 hidden w-44 rounded-xl border border-white/10 bg-space-950/75 p-4 backdrop-blur-md sm:block">
+            <p className="mb-2 text-[11px] font-semibold tracking-[0.2em] text-signal">
               LAYERS
             </p>
             <LayerToggle
@@ -1456,7 +1456,7 @@ function Simulation() {
               <button
                 type="button"
                 onClick={toggleFullscreen}
-                className="rounded-lg border border-white/10 bg-slate-950/70 px-3 py-2 text-xs font-medium text-slate-200 backdrop-blur-md transition-colors hover:bg-white/10 md:text-sm"
+                className="rounded-lg border border-white/10 bg-space-950/70 px-3 py-2 text-xs font-medium text-slate-200 backdrop-blur-md transition-colors hover:bg-white/10 md:text-sm"
               >
                 {fullscreen ? "Exit fullscreen" : "Fullscreen"}
               </button>
@@ -1464,7 +1464,7 @@ function Simulation() {
           </div>
         </div>
 
-        <p className="mt-3 text-xs text-slate-500">
+        <p className="mt-3 text-xs text-muted">
           Shortcuts: <kbd className="rounded bg-white/10 px-1">Space</kbd> pause
           · <kbd className="rounded bg-white/10 px-1">1–4</kbd> camera ·{" "}
           <kbd className="rounded bg-white/10 px-1">F</kbd> fullscreen
@@ -1472,13 +1472,13 @@ function Simulation() {
 
         {/* ------------------------- Telemetry + map ------------------------- */}
         <div className="mt-6 grid gap-6 lg:grid-cols-5">
-          <div className="rounded-xl border border-[#1D2940] bg-[#0C1322] p-6 lg:col-span-3">
+          <div className="rounded-xl border border-white/10 bg-space-800 p-6 lg:col-span-3">
             <div className="mb-4 flex items-center justify-between">
-              <h2 className="text-lg font-semibold text-[#3EE0FF]">
+              <h2 className="text-lg font-semibold text-signal">
                 Station Telemetry
               </h2>
               {selected && (
-                <span className="flex items-center gap-2 rounded-full border border-cyan-400/30 bg-cyan-400/10 px-3 py-1 text-xs text-cyan-300">
+                <span className="flex items-center gap-2 rounded-full border border-signal/30 bg-cyan-400/10 px-3 py-1 text-xs text-signal">
                   <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-cyan-300" />
                   LOCKED · SIMHA-01
                 </span>
@@ -1529,21 +1529,21 @@ function Simulation() {
                   >
                     Release lock
                   </button>
-                  <p className="text-xs text-slate-500">
+                  <p className="text-xs text-muted">
                     Simulated values for demonstration.
                   </p>
                 </div>
               </>
             ) : (
               <div className="flex flex-col items-start gap-4 rounded-lg border border-dashed border-white/10 p-6">
-                <p className="text-sm text-slate-400">
+                <p className="text-sm text-muted">
                   Select the 3D station in the viewport to view its live
                   telemetry.
                 </p>
                 <button
                   type="button"
                   onClick={() => select(true)}
-                  className="rounded-md border border-cyan-400/40 px-4 py-2 text-sm text-cyan-300 transition-colors hover:bg-cyan-400/10"
+                  className="rounded-md border border-signal/40 px-4 py-2 text-sm text-signal transition-colors hover:bg-cyan-400/10"
                 >
                   Select SIMHA-01
                 </button>
@@ -1551,12 +1551,12 @@ function Simulation() {
             )}
           </div>
 
-          <div className="rounded-xl border border-[#1D2940] bg-[#0C1322] p-6 lg:col-span-2">
+          <div className="rounded-xl border border-white/10 bg-space-800 p-6 lg:col-span-2">
             <div className="mb-4 flex items-center justify-between">
-              <h2 className="text-lg font-semibold text-[#3EE0FF]">
+              <h2 className="text-lg font-semibold text-signal">
                 Ground Track
               </h2>
-              <span className="text-[11px] text-slate-500">
+              <span className="text-[11px] text-muted">
                 <span className="mr-1 inline-block h-2 w-2 rounded-full bg-[#ffd36b]" />
                 Sub-solar point
               </span>
@@ -1567,7 +1567,7 @@ function Simulation() {
               height={240}
               className="aspect-[2/1] w-full rounded-lg border border-white/10"
             />
-            <p className="mt-3 text-xs text-slate-500">
+            <p className="mt-3 text-xs text-muted">
               Last orbit of the station projected onto Earth, with the day/night
               terminator.
             </p>

@@ -1,31 +1,4 @@
-import { useEffect, useRef, useState } from "react";
-
-export function useInView(options = {}) {
-  const ref = useRef(null);
-  const [isInView, setIsInView] = useState(false);
-
-  useEffect(() => {
-    if (!ref.current || typeof IntersectionObserver === "undefined") {
-      setIsInView(true);
-      return undefined;
-    }
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsInView(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.12, ...options },
-    );
-
-    observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, [options]);
-
-  return [ref, isInView];
-}
+import useInView from "./useInView";
 
 function Reveal({
   children,
@@ -33,9 +6,12 @@ function Reveal({
   className = "",
   variant = "fade-up",
   delay = 0,
+  once = true,
+  rootMargin = "0px",
+  threshold = 0.12,
   ...props
 }) {
-  const [ref, isInView] = useInView();
+  const [ref, isInView] = useInView({ once, rootMargin, threshold });
 
   return (
     <Component

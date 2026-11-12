@@ -91,9 +91,9 @@ function PublishedPapers() {
     }
   };
   return (
-    <section className="min-h-screen bg-[#060A13] px-6 py-20 text-[#E9EEF6]">
+    <section className="min-h-screen bg-space-950 px-6 py-20 text-ink">
       <div className="mx-auto max-w-7xl">
-        <p className="mb-4 text-sm uppercase tracking-[0.3em] text-[#3EE0FF]">
+        <p className="mb-4 text-sm uppercase tracking-[0.3em] text-signal">
           Research & Knowledge
         </p>
 
@@ -101,7 +101,7 @@ function PublishedPapers() {
           Published Papers
         </h1>
 
-        <p className="mb-12 max-w-3xl text-lg leading-8 text-slate-400">
+        <p className="mb-12 max-w-3xl text-lg leading-8 text-muted">
           Explore research papers, technical publications, and engineering
           contributions from MANI Aerospace.
         </p>
@@ -115,12 +115,12 @@ function PublishedPapers() {
             value={searchInput}
             onChange={(e) => setSearchInput(e.target.value)}
             placeholder="Search by title, author, abstract or keyword..."
-            className="w-full rounded-lg border border-[#1D2940] bg-[#0C1322] px-5 py-3 text-white outline-none focus:border-[#3EE0FF]"
+            className="w-full rounded-lg border border-white/10 bg-space-800 px-5 py-3 text-white outline-none focus:border-signal"
           />
 
           <button
             type="submit"
-            className="rounded-lg bg-[#3EE0FF] px-8 py-3 font-semibold text-[#060A13] transition hover:bg-white"
+            className="rounded-lg bg-signal px-8 py-3 font-semibold text-space-950 transition hover:bg-white"
           >
             Search
           </button>
@@ -133,15 +133,15 @@ function PublishedPapers() {
         )}
 
         {loading ? (
-          <p className="py-20 text-center text-slate-400">
+          <p className="py-20 text-center text-muted">
             Loading research papers...
           </p>
         ) : papers.length === 0 ? (
-          <div className="rounded-xl border border-[#1D2940] bg-[#0C1322] p-12 text-center">
-            <h2 className="mb-3 text-2xl font-semibold text-[#3EE0FF]">
+          <div className="rounded-xl border border-white/10 bg-space-800 p-12 text-center">
+            <h2 className="mb-3 text-2xl font-semibold text-signal">
               No Papers Found
             </h2>
-            <p className="text-slate-400">
+            <p className="text-muted">
               No published research papers match your search.
             </p>
           </div>
@@ -151,35 +151,35 @@ function PublishedPapers() {
               {papers.map((paper) => (
                 <article
                   key={paper.id}
-                  className="flex flex-col rounded-xl border border-[#1D2940] bg-[#0C1322] p-7 transition hover:border-[#3EE0FF]/60"
+                  className="flex flex-col rounded-xl border border-white/10 bg-space-800 p-7 transition hover:border-signal/60"
                 >
                   <div className="mb-5 flex items-center justify-between">
-                    <span className="rounded-full bg-[#3EE0FF]/10 px-3 py-1 text-xs font-semibold text-[#3EE0FF]">
+                    <span className="rounded-full bg-signal/10 px-3 py-1 text-xs font-semibold text-signal">
                       Published
                     </span>
 
-                    <span className="text-sm text-slate-500">#{paper.id}</span>
+                    <span className="text-sm text-muted">#{paper.id}</span>
                   </div>
 
                   <h2 className="mb-4 text-xl font-semibold leading-7">
                     {paper.title}
                   </h2>
 
-                  <p className="mb-4 text-sm text-slate-400">
+                  <p className="mb-4 text-sm text-muted">
                     By {paper.authors}
                   </p>
 
-                  <p className="mb-6 flex-1 leading-7 text-slate-400">
+                  <p className="mb-6 flex-1 leading-7 text-muted">
                     {paper.abstract}
                   </p>
 
                   {paper.keywords && (
-                    <p className="mb-5 text-sm text-[#3EE0FF]">
+                    <p className="mb-5 text-sm text-signal">
                       {paper.keywords}
                     </p>
                   )}
 
-                  <div className="mb-6 flex items-center gap-5 text-sm text-slate-400">
+                  <div className="mb-6 flex items-center gap-5 text-sm text-muted">
                     <span>{paper.likes_count} Likes</span>
                     <button
                       onClick={() => {
@@ -191,7 +191,7 @@ function PublishedPapers() {
                           navigate(`/published-papers/${paper.id}`);
                         }
                       }}
-                      className="transition hover:text-[#3EE0FF]"
+                      className="transition hover:text-signal"
                     >
                       {paper.comments_count} Comments
                     </button>
@@ -203,8 +203,8 @@ function PublishedPapers() {
                       disabled={likingId === paper.id}
                       className={`rounded-lg px-4 py-2 text-sm font-semibold transition disabled:opacity-50 ${
                         paper.is_liked
-                          ? "bg-[#3EE0FF] text-[#060A13]"
-                          : "border border-[#3EE0FF] text-[#3EE0FF] hover:bg-[#3EE0FF] hover:text-[#060A13]"
+                          ? "bg-signal text-space-950"
+                          : "border border-signal text-signal hover:bg-signal hover:text-space-950"
                       }`}
                     >
                       {likingId === paper.id
@@ -216,7 +216,7 @@ function PublishedPapers() {
 
                     <Link
                       to={`/published-papers/${paper.id}`}
-                      className="rounded-lg border border-[#3EE0FF] px-4 py-2 text-sm font-semibold text-[#3EE0FF] transition hover:bg-[#3EE0FF] hover:text-[#060A13]"
+                      className="rounded-lg border border-signal px-4 py-2 text-sm font-semibold text-signal transition hover:bg-signal hover:text-space-950"
                     >
                       View Details
                     </Link>
@@ -239,19 +239,19 @@ function PublishedPapers() {
                 <button
                   onClick={() => setPage((current) => current - 1)}
                   disabled={page === 1}
-                  className="rounded-lg border border-[#1D2940] px-5 py-2 disabled:opacity-30"
+                  className="rounded-lg border border-white/10 px-5 py-2 disabled:opacity-30"
                 >
                   Previous
                 </button>
 
-                <span className="text-sm text-slate-400">
+                <span className="text-sm text-muted">
                   Page {page} of {totalPages}
                 </span>
 
                 <button
                   onClick={() => setPage((current) => current + 1)}
                   disabled={page === totalPages}
-                  className="rounded-lg border border-[#1D2940] px-5 py-2 disabled:opacity-30"
+                  className="rounded-lg border border-white/10 px-5 py-2 disabled:opacity-30"
                 >
                   Next
                 </button>
@@ -262,19 +262,19 @@ function PublishedPapers() {
       </div>
       {showLoginModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 px-4">
-          <div className="w-full max-w-md rounded-2xl border border-[#1D2940] bg-[#0C1322] p-8 text-center shadow-2xl">
+          <div className="w-full max-w-md rounded-2xl border border-white/10 bg-space-800 p-8 text-center shadow-2xl">
             <h2 className="mb-3 text-2xl font-bold text-white">
               Login Required
             </h2>
 
-            <p className="mb-7 text-slate-400">
+            <p className="mb-7 text-muted">
               Please login to like and comment on research papers.
             </p>
 
             <div className="flex justify-center gap-4">
               <button
                 onClick={() => setShowLoginModal(false)}
-                className="rounded-lg border border-[#1D2940] px-6 py-3 text-white transition hover:bg-white/10"
+                className="rounded-lg border border-white/10 px-6 py-3 text-white transition hover:bg-white/10"
               >
                 Cancel
               </button>
@@ -282,7 +282,7 @@ function PublishedPapers() {
               <Link
                 to="/login"
                 state={{ from: location }}
-                className="rounded-lg bg-[#3EE0FF] px-6 py-3 font-semibold text-[#060A13]"
+                className="rounded-lg bg-signal px-6 py-3 font-semibold text-space-950"
               >
                 Login
               </Link>
