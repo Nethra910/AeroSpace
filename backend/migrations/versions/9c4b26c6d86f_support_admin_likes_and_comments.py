@@ -19,6 +19,15 @@ depends_on: Union[str, Sequence[str], None] = None
 
 
 def upgrade() -> None:
+    op.add_column(
+        'paper_comments',
+        sa.Column('admin_username', sa.String(length=150), nullable=True),
+    )
+    op.add_column(
+        'paper_likes',
+        sa.Column('admin_username', sa.String(length=150), nullable=True),
+    )
+
     op.alter_column(
         'paper_comments',
         'user_id',

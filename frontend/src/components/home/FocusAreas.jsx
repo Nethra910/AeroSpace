@@ -26,10 +26,12 @@ function FocusAreas() {
 
         <h2 className="mt-4 text-4xl font-bold">Engineering the Future</h2>
 
-        <div className="mt-12 grid gap-6 md:grid-cols-3">
+        <div className="stagger mt-12 grid gap-6 md:grid-cols-3">
           {focusAreas.map((area, index) => (
-            <article
+            <Reveal
               key={area.title}
+              as="article"
+              delay={index * 80}
               className="rounded-xl border border-white/10 bg-slate-900 p-8 transition hover:border-cyan-400/50"
             >
               <span className="font-mono text-cyan-400">0{index + 1}</span>
@@ -39,7 +41,7 @@ function FocusAreas() {
               <p className="mt-4 leading-relaxed text-slate-400">
                 {area.description}
               </p>
-            </article>
+            </Reveal>
           ))}
         </div>
       </div>
@@ -48,3 +50,4 @@ function FocusAreas() {
 }
 
 export default FocusAreas;
+import Reveal from "../motion/Reveal";

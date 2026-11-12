@@ -62,7 +62,10 @@ def create_news(
     db: Session = Depends(get_db),
     admin: dict = Depends(get_current_admin)
 ):
-    news = News(**data.model_dump())
+    values = data.model_dump()
+    if values["published"]:
+        values["published_at"] = datetime.now(timezone.utc)
+    news = News(**values)
     db.add(news)
     db.commit()
     db.refresh(news)
@@ -81,8 +84,15 @@ def update_news(
     if not news:
         raise HTTPException(status_code=404, detail="News not found")
 
-    for field, value in data.model_dump(exclude_unset=True).items():
+    values = data.model_dump(exclude_unset=True)
+    for field, value in values.items():
         setattr(news, field, value)
+
+    if "published" in values:
+        if values["published"] and news.published_at is None:
+            news.published_at = datetime.now(timezone.utc)
+        elif not values["published"]:
+            news.published_at = None
 
     db.commit()
     db.refresh(news)

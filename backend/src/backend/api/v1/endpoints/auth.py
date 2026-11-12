@@ -23,7 +23,7 @@ def get_current_admin(token: str = Depends(oauth2_scheme)):
 
         return {"username": username}
 
-    except InvalidTokenError:
+    except (InvalidTokenError, TypeError):
         raise HTTPException(status_code=401, detail="Invalid or expired token")
 
 

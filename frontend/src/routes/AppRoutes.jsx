@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import MainLayout from "../layouts/MainLayout";
 import Home from "../pages/Home";
 import Mission from "../pages/Mission";
@@ -28,8 +28,11 @@ import MySubmissions from "../pages/MySubmissions";
 import ResearchPaperManagement from "../pages/admin/ResearchPaperManagement";
 import AdminSubmitResearchPaper from "../pages/admin/AdminSubmitResearchPaper";
 function AppRoutes() {
+  const location = useLocation();
+
   return (
-    <Routes>
+    <div key={location.pathname} className="page-enter">
+      <Routes>
       <Route element={<MainLayout />}>
         <Route path="/" element={<Home />} />
         <Route path="/mission" element={<Mission />} />
@@ -80,7 +83,8 @@ function AppRoutes() {
       />
 
       <Route path="*" element={<NotFound />} />
-    </Routes>
+      </Routes>
+    </div>
   );
 }
 

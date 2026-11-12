@@ -1,8 +1,10 @@
+import Reveal from "../motion/Reveal";
+
 function CompanyOverview() {
   return (
     <section className="bg-[#0A101D] px-6 py-24 text-white">
       <div className="mx-auto grid max-w-7xl gap-12 md:grid-cols-2 md:items-center">
-        <div>
+        <Reveal>
           <p className="mb-4 font-mono text-sm uppercase tracking-widest text-cyan-400">
             Who We Are
           </p>
@@ -16,9 +18,9 @@ function CompanyOverview() {
             research, and innovative technologies that contribute to the future
             of aerospace exploration.
           </p>
-        </div>
+        </Reveal>
 
-        <div className="rounded-xl border border-white/10 bg-slate-900 p-10">
+        <Reveal delay={100} className="rounded-xl border border-white/10 bg-slate-900 p-10">
           <p className="text-5xl font-bold text-cyan-400">2036</p>
           <h3 className="mt-4 text-xl font-semibold">
             Our Vision for the Future
@@ -27,7 +29,7 @@ function CompanyOverview() {
             Exploring new possibilities through engineering, innovation, and
             scientific research.
           </p>
-        </div>
+        </Reveal>
       </div>
     </section>
   );

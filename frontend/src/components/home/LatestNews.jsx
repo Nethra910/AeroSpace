@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import newsService from "../../services/newsService";
+import Reveal from "../motion/Reveal";
 
 function LatestNews() {
   const [newsItems, setNewsItems] = useState([]);
@@ -38,9 +39,11 @@ function LatestNews() {
           <p className="mt-12 text-slate-400">No published news available.</p>
         ) : (
           <div className="mt-12 grid gap-6 md:grid-cols-3">
-            {newsItems.slice(0, 3).map((item) => (
-              <article
+            {newsItems.slice(0, 3).map((item, index) => (
+              <Reveal
                 key={item.id}
+                as="article"
+                delay={index * 80}
                 className="rounded-xl border border-white/10 bg-slate-900 p-8 transition hover:border-cyan-400/50"
               >
                 <p className="text-sm text-cyan-400">{item.category}</p>
@@ -50,7 +53,7 @@ function LatestNews() {
                 <p className="mt-4 leading-relaxed text-slate-400">
                   {item.summary}
                 </p>
-              </article>
+              </Reveal>
             ))}
           </div>
         )}

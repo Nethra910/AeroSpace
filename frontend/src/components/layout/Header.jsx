@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 
@@ -17,11 +17,26 @@ const navigation = [
 
 function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [hidden, setHidden] = useState(false);
   const { user, logout, loading } = useAuth();
   const navigate = useNavigate();
 
+  useEffect(() => {
+    let previousY = window.scrollY;
+    const onScroll = () => {
+      const currentY = window.scrollY;
+      setScrolled(currentY > 24);
+      setHidden(currentY > 120 && currentY > previousY && !menuOpen);
+      previousY = currentY;
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [menuOpen]);
+
   const navClass = ({ isActive }) =>
-    `text-sm transition hover:text-cyan-400 ${
+    `nav-link text-sm transition hover:text-cyan-400 ${
       isActive ? "text-cyan-400" : "text-slate-300"
     }`;
 
@@ -69,14 +84,14 @@ function Header() {
   );
 
   return (
-    <header className="border-b border-white/10 bg-slate-950 text-white">
-      <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5">
+    <header className={`site-header sticky top-0 z-40 border-b border-white/10 bg-slate-950 text-white ${scrolled ? "is-scrolled" : ""} ${hidden ? "is-hidden" : ""}`}>
+      <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
         <Link
           to="/"
-          className="text-xl font-bold tracking-wider"
+          className="font-mono text-sm font-semibold tracking-[0.18em]"
           onClick={() => setMenuOpen(false)}
         >
-          MANI <span className="text-cyan-400">AEROSPACE</span>
+          MANI <span className="text-cyan-400">/ AEROSPACE</span>
         </Link>
 
         <div className="hidden items-center gap-6 lg:flex">
@@ -111,7 +126,7 @@ function Header() {
 
         <button
           onClick={() => setMenuOpen(!menuOpen)}
-          className="flex h-10 w-10 items-center justify-center rounded-md border border-white/10 text-2xl text-cyan-400 lg:hidden"
+          className="flex h-11 w-11 items-center justify-center rounded-md border border-white/10 text-2xl text-cyan-400 lg:hidden"
           aria-label={menuOpen ? "Close menu" : "Open menu"}
           aria-expanded={menuOpen}
         >
@@ -120,7 +135,7 @@ function Header() {
       </nav>
 
       {menuOpen && (
-        <div className="border-t border-white/10 bg-slate-950 px-6 py-4 lg:hidden">
+        <div className="border-t border-white/10 bg-slate-950 px-6 py-5 lg:hidden">
           <div className="flex flex-col gap-5">
             {navigation.map((item) => (
               <NavLink
