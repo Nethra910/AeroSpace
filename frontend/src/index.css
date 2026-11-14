@@ -69,12 +69,52 @@ main a, main button { transition: color var(--dur-fast) ease, border-color var(-
 input, textarea, select { border-radius: 2px !important; border-color: rgba(167, 179, 191, .22) !important; background: #0b111b !important; color: #f2f5f7 !important; }
 input:focus, textarea:focus, select:focus { border-color: #61d6d1 !important; box-shadow: 0 0 0 3px rgba(97, 214, 209, .12); outline: none; }
 
-.site-header { transition: transform var(--dur-base) var(--ease-out-expo), background-color var(--dur-base) ease, border-color var(--dur-base) ease; }
-.site-header.is-hidden { transform: translateY(-100%); }
-.site-header.is-scrolled { background: rgba(7, 11, 18, .92); backdrop-filter: blur(14px); border-color: rgba(97, 214, 209, .24); }
-.nav-link { position: relative; padding-block: 8px; }
-.nav-link::after { position: absolute; right: 0; bottom: 0; left: 0; height: 1px; background: #61d6d1; content: ""; transform: scaleX(0); transform-origin: right; transition: transform var(--dur-base) var(--ease-out-expo); }
-.nav-link:hover::after, .nav-link[aria-current="page"]::after { transform: scaleX(1); transform-origin: left; }
+/* ---------- Sidebar navigation ---------- */
+:root { --sidebar-w: 17rem; --sidebar-w-rail: 4.75rem; }
+
+.admin-shell { --sidebar-w: 18.5rem; } /* longer admin labels, e.g. "Research Paper Management" */
+.sidebar { position: fixed; inset: 0 auto 0 0; z-index: 40; width: min(20rem, 88vw); border-right: 1px solid rgba(255, 255, 255, .1); background: radial-gradient(120% 28% at 0 0, rgba(97, 214, 209, .08), transparent 70%), #070b12; transform: translateX(-100%); transition: transform var(--dur-base) var(--ease-out-expo), width var(--dur-base) var(--ease-out-expo); }
+.sidebar[data-open="true"] { transform: none; box-shadow: 24px 0 60px -24px rgba(0, 0, 0, .8); }
+.sidebar-backdrop { position: fixed; inset: 0; z-index: 39; visibility: hidden; background: rgba(7, 11, 18, .72); backdrop-filter: blur(2px); opacity: 0; transition: opacity var(--dur-base) ease, visibility var(--dur-base); }
+.sidebar-backdrop.is-open { visibility: visible; opacity: 1; }
+
+.sidebar-toggle { position: absolute; top: 22px; right: -14px; z-index: 1; display: none; width: 28px; height: 28px; align-items: center; justify-content: center; border: 1px solid rgba(255, 255, 255, .18); border-radius: 2px; background: #0b111b; color: #a7b3bf; cursor: pointer; transition: color var(--dur-fast) ease, border-color var(--dur-fast) ease, background-color var(--dur-fast) ease; }
+.sidebar-toggle:hover { border-color: #61d6d1; color: #61d6d1; background: #111a26; }
+.sidebar-toggle svg { transition: transform var(--dur-base) var(--ease-out-expo); }
+.sidebar[data-rail="true"] .sidebar-toggle svg { transform: rotate(180deg); }
+
+.sidebar-eyebrow { margin: 1.25rem 1rem .5rem; overflow: hidden; color: #6e7c89; font: 500 .6875rem/1 "IBM Plex Mono", monospace; letter-spacing: .16em; text-transform: uppercase; white-space: nowrap; }
+.sidebar-eyebrow:first-child { margin-top: .5rem; }
+
+.sidebar-link { position: relative; display: flex; width: 100%; align-items: center; gap: .75rem; margin-bottom: 2px; padding: .75rem 1rem; border: 0; border-radius: 2px; background: transparent; color: #a7b3bf; cursor: pointer; font-size: .875rem; text-align: left; text-decoration: none; transition: color var(--dur-fast) ease, background-color var(--dur-fast) ease; }
+.sidebar-link:hover { background: rgba(255, 255, 255, .045); color: #f2f5f7; }
+.sidebar-link::before { position: absolute; top: 20%; bottom: 20%; left: 0; width: 2px; background: #61d6d1; content: ""; transform: scaleY(0); transition: transform var(--dur-base) var(--ease-out-expo); }
+.sidebar-link[aria-current="page"] { background: rgba(97, 214, 209, .08); color: #61d6d1; }
+.sidebar-link[aria-current="page"]::before { box-shadow: 0 0 12px rgba(97, 214, 209, .6); transform: scaleY(1); }
+.sidebar-link--profile { padding-inline: .5rem; }
+.sidebar-link--danger:hover { background: rgba(239, 119, 119, .08); color: #ef7777; }
+.sidebar-link--cta { background: #f0a35b; color: #070b12; font-weight: 600; }
+.sidebar-link--cta:hover { background: #61d6d1; color: #070b12; }
+
+.sidebar-label { max-width: 14rem; overflow: hidden; white-space: nowrap; transition: opacity var(--dur-base) var(--ease-out-expo), max-width var(--dur-base) var(--ease-out-expo); }
+
+.rail-tooltip { position: fixed; z-index: 60; border: 1px solid rgba(97, 214, 209, .32); border-radius: 2px; background: #111a26; box-shadow: 0 10px 30px -10px rgba(0, 0, 0, .8); color: #f2f5f7; font: 500 .75rem/1 "IBM Plex Mono", monospace; letter-spacing: .04em; padding: .5rem .625rem; pointer-events: none; transform: translateY(-50%); white-space: nowrap; animation: modal-enter var(--dur-fast) ease both; }
+
+@media (max-width: 380px) { .sidebar .brand .sidebar-label { font-size: .75rem; letter-spacing: .1em; } }
+
+@media (min-width: 1024px) {
+  .sidebar { width: var(--sidebar-w); transform: none; }
+  .sidebar[data-rail="true"] { width: var(--sidebar-w-rail); }
+  .sidebar-backdrop { display: none; }
+  .sidebar-toggle { display: flex; }
+  .app-shell { padding-left: var(--sidebar-w); transition: padding-left var(--dur-base) var(--ease-out-expo); }
+  .app-shell[data-collapsed="true"] { padding-left: var(--sidebar-w-rail); }
+
+  .sidebar[data-rail="true"] .sidebar-label { max-width: 0; opacity: 0; }
+  .sidebar[data-rail="true"] .sidebar-link, .sidebar[data-rail="true"] .brand { gap: 0; }
+  .sidebar[data-rail="true"] .sidebar-eyebrow { height: 1px; margin: 1rem; background: rgba(255, 255, 255, .1); font-size: 0; }
+}
+
 .scroll-progress { position: fixed; top: 0; left: 0; z-index: 50; height: 2px; background: #f0a35b; transform-origin: left; }
 .hero-orbit { animation: orbit-drift 18s linear infinite; transform-origin: center; }
 .signal-rule::before { display: block; width: 48px; height: 1px; margin-bottom: 16px; background: #61d6d1; content: ""; }

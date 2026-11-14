@@ -1,5 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import MainLayout from "../layouts/MainLayout";
+import AdminLayout from "../layouts/AdminLayout";
 import Home from "../pages/Home";
 import Mission from "../pages/Mission";
 import News from "../pages/News";
@@ -79,24 +80,26 @@ function AppRoutes() {
       />
 
       <Route element={<ProtectedRoute />}>
-        <Route path="/admin/dashboard" element={<Dashboard />} />
-        <Route path="/admin/news" element={<NewsManagement />} />
-        <Route path="/admin/home" element={<HomeEditor />} />
-        <Route path="/admin/mission" element={<MissionEditor />} />
-        <Route path="/admin/team" element={<TeamManagement />} />
-        <Route
-          path="/admin/board-members"
-          element={<BoardMemberManagement />}
-        />
-        <Route
-          path="/admin/research-papers"
-          element={<ResearchPaperManagement />}
-        />
+        <Route element={<AdminLayout />}>
+          <Route path="/admin/dashboard" element={<Dashboard />} />
+          <Route path="/admin/news" element={<NewsManagement />} />
+          <Route path="/admin/home" element={<HomeEditor />} />
+          <Route path="/admin/mission" element={<MissionEditor />} />
+          <Route path="/admin/team" element={<TeamManagement />} />
+          <Route
+            path="/admin/board-members"
+            element={<BoardMemberManagement />}
+          />
+          <Route
+            path="/admin/research-papers"
+            element={<ResearchPaperManagement />}
+          />
+          <Route
+            path="/admin/research-papers/publish"
+            element={<AdminSubmitResearchPaper />}
+          />
+        </Route>
       </Route>
-      <Route
-        path="/admin/research-papers/publish"
-        element={<AdminSubmitResearchPaper />}
-      />
 
       <Route path="*" element={<NotFound />} />
     </Routes>
