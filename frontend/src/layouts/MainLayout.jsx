@@ -1,38 +1,16 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import Sidebar from "../components/layout/Sidebar";
 import MobileTopBar from "../components/layout/MobileTopBar";
 import Footer from "../components/layout/Footer";
-
-const COLLAPSED_KEY = "aerospace.sidebar.collapsed";
+import { useSidebarState } from "../hooks/useSidebarState";
 
 function MainLayout() {
   const location = useLocation();
   const [progress, setProgress] = useState(0);
-
-  // Desktop: expanded by default, preference remembered between visits.
-  const [collapsed, setCollapsed] = useState(() => {
-    try {
-      return localStorage.getItem(COLLAPSED_KEY) === "true";
-    } catch {
-      return false;
-    }
-  });
-
-  // Mobile drawer: tied to the path it was opened on, so any navigation closes it.
-  const [drawerPath, setDrawerPath] = useState(null);
-  const mobileOpen = drawerPath === location.pathname;
-  const openMobile = () => setDrawerPath(location.pathname);
-  const closeMobile = useCallback(() => setDrawerPath(null), []);
-  const toggleCollapsed = useCallback(() => setCollapsed((value) => !value), []);
-
-  useEffect(() => {
-    try {
-      localStorage.setItem(COLLAPSED_KEY, String(collapsed));
-    } catch {
-      /* storage unavailable: preference just won't persist */
-    }
-  }, [collapsed]);
+  const { collapsed, toggleCollapsed, mobileOpen, openMobile, closeMobile } = useSidebarState(
+    "aerospace.sidebar.collapsed",
+  );
 
   useEffect(() => {
     const updateProgress = () => {

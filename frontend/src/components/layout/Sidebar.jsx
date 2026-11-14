@@ -1,6 +1,6 @@
-import { useEffect } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import { useDrawerLock } from "../../hooks/useDrawerLock";
 import { useMediaQuery } from "../../hooks/useMediaQuery";
 import { accountNav, loginRoute, primaryNav, profileRoute } from "../../config/navigation";
 import Icon from "../ui/Icon";
@@ -18,17 +18,7 @@ function Sidebar({ collapsed, onToggleCollapse, mobileOpen, onMobileClose }) {
   const rail = isDesktop && collapsed;
   const drawerOpen = !isDesktop && mobileOpen;
 
-  useEffect(() => {
-    if (!drawerOpen) return undefined;
-    const onKeyDown = (event) => event.key === "Escape" && onMobileClose();
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    document.addEventListener("keydown", onKeyDown);
-    return () => {
-      document.body.style.overflow = previousOverflow;
-      document.removeEventListener("keydown", onKeyDown);
-    };
-  }, [drawerOpen, onMobileClose]);
+  useDrawerLock(drawerOpen, onMobileClose);
 
   const handleLogout = () => {
     logout();
