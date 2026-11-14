@@ -8,7 +8,7 @@ export const primaryNav = [
   { name: "Team SIMHA", path: "/team-simha", icon: "users" },
   { name: "Directors", path: "/directors", icon: "briefcase" },
   { name: "Parent Company", path: "/parent-company", icon: "building" },
-  { name: "Research", path: "/research", icon: "flask" },
+  { name: "Research Organisation", path: "/research", icon: "flask" },
   { name: "News", path: "/news", icon: "newspaper" },
   { name: "Published Papers", path: "/published-papers", icon: "fileText" },
   { name: "Live Simulation", path: "/simulation", icon: "orbit" },

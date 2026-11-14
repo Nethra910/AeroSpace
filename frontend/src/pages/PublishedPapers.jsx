@@ -7,6 +7,7 @@ import {
 
 import { useAuth } from "../context/AuthContext";
 import { Link, useNavigate, useLocation } from "react-router-dom";
+import OrganisationIdentity from "../components/brand/OrganisationIdentity";
 
 function PublishedPapers() {
   const [papers, setPapers] = useState([]);
@@ -93,6 +94,8 @@ function PublishedPapers() {
   return (
     <section className="min-h-screen bg-space-950 px-6 py-20 text-ink">
       <div className="mx-auto max-w-7xl">
+        <OrganisationIdentity className="mb-14" />
+
         <p className="mb-4 text-sm uppercase tracking-[0.3em] text-signal">
           Research & Knowledge
         </p>
@@ -103,7 +106,7 @@ function PublishedPapers() {
 
         <p className="mb-12 max-w-3xl text-lg leading-8 text-muted">
           Explore research papers, technical publications, and engineering
-          contributions from MANI Aerospace.
+          contributions published through the MANI Research Organisation.
         </p>
 
         <form
