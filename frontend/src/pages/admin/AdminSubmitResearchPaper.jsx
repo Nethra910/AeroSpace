@@ -4,6 +4,7 @@ import {
   uploadAdminResearchPaperPdf,
   submitAdminResearchPaper,
 } from "../../services/researchPaperService";
+import { adminPage, adminTitle } from "../../components/ui/pageStyles";
 
 function AdminSubmitResearchPaper() {
   const navigate = useNavigate();
@@ -59,7 +60,7 @@ function AdminSubmitResearchPaper() {
   };
 
   return (
-    <section className="min-h-screen bg-space-950 px-6 py-12 text-white">
+    <section className={adminPage}>
       <div className="mx-auto max-w-3xl">
         <button
           onClick={() => navigate("/admin/dashboard")}
@@ -68,7 +69,7 @@ function AdminSubmitResearchPaper() {
           ← Back to Dashboard
         </button>
 
-        <h1 className="mb-3 text-3xl font-bold">Publish Research Paper</h1>
+        <h1 className={`mb-3 ${adminTitle}`}>Publish Research Paper</h1>
 
         <p className="mb-8 text-muted">
           Admin submissions are published immediately without approval.

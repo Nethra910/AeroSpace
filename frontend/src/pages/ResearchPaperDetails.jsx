@@ -6,6 +6,7 @@ import {
   addPaperComment,
 } from "../services/researchPaperService";
 import { useAuth } from "../context/AuthContext";
+import { publicPage } from "../components/ui/pageStyles";
 
 function ResearchPaperDetails() {
   const { paperId } = useParams();
@@ -89,7 +90,7 @@ function ResearchPaperDetails() {
   }
 
   return (
-    <section className="min-h-screen bg-space-950 px-6 py-16 text-ink">
+    <section className={publicPage}>
       <div className="mx-auto max-w-5xl">
         <Link
           to="/published-papers"

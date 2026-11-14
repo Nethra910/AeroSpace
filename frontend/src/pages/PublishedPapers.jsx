@@ -7,6 +7,9 @@ import {
 
 import { useAuth } from "../context/AuthContext";
 import { Link, useNavigate, useLocation } from "react-router-dom";
+import OrganisationIdentity from "../components/brand/OrganisationIdentity";
+import PageHeader from "../components/ui/PageHeader";
+import { publicPage } from "../components/ui/pageStyles";
 
 function PublishedPapers() {
   const [papers, setPapers] = useState([]);
@@ -91,20 +94,15 @@ function PublishedPapers() {
     }
   };
   return (
-    <section className="min-h-screen bg-space-950 px-6 py-20 text-ink">
+    <section className={publicPage}>
       <div className="mx-auto max-w-7xl">
-        <p className="mb-4 text-sm uppercase tracking-[0.3em] text-signal">
-          Research & Knowledge
-        </p>
+        <OrganisationIdentity className="mb-14" />
 
-        <h1 className="mb-6 text-4xl font-bold md:text-6xl">
-          Published Papers
-        </h1>
-
-        <p className="mb-12 max-w-3xl text-lg leading-8 text-muted">
-          Explore research papers, technical publications, and engineering
-          contributions from MANI Aerospace.
-        </p>
+        <PageHeader
+          eyebrow="Research & Knowledge"
+          title="Published Papers"
+          description="Explore research papers, technical publications, and engineering contributions published through the MANI Research Organisation."
+        />
 
         <form
           onSubmit={handleSearch}
@@ -147,7 +145,7 @@ function PublishedPapers() {
           </div>
         ) : (
           <>
-            <div className="grid gap-7 md:grid-cols-2 lg:grid-cols-3">
+            <div className="grid gap-7 md:grid-cols-2 xl:grid-cols-3">
               {papers.map((paper) => (
                 <article
                   key={paper.id}
@@ -165,18 +163,14 @@ function PublishedPapers() {
                     {paper.title}
                   </h2>
 
-                  <p className="mb-4 text-sm text-muted">
-                    By {paper.authors}
-                  </p>
+                  <p className="mb-4 text-sm text-muted">By {paper.authors}</p>
 
-                  <p className="mb-6 flex-1 leading-7 text-muted">
+                  <p className="mb-6 line-clamp-6 flex-1 leading-7 text-muted">
                     {paper.abstract}
                   </p>
 
                   {paper.keywords && (
-                    <p className="mb-5 text-sm text-signal">
-                      {paper.keywords}
-                    </p>
+                    <p className="mb-5 text-sm text-signal">{paper.keywords}</p>
                   )}
 
                   <div className="mb-6 flex items-center gap-5 text-sm text-muted">

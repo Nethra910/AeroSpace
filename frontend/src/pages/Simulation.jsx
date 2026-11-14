@@ -6,6 +6,8 @@ import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass.js";
 import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPass.js";
 import { ShaderPass } from "three/examples/jsm/postprocessing/ShaderPass.js";
 import { RoomEnvironment } from "three/examples/jsm/environments/RoomEnvironment.js";
+import PageHeader from "../components/ui/PageHeader";
+import { publicPage } from "../components/ui/pageStyles";
 
 /* -------------------------------------------------------------------------- */
 /*  Constants                                                                 */
@@ -1318,21 +1320,13 @@ function Simulation() {
 
   /* --------------------------------- Render -------------------------------- */
   return (
-    <section className="min-h-screen bg-space-950 px-4 py-10 text-ink md:px-8">
+    <section className={publicPage}>
       <div className="mx-auto max-w-7xl">
-        <p className="mb-3 text-sm uppercase tracking-[0.3em] text-signal">
-          Mission Control
-        </p>
-
-        <h1 className="mb-3 text-3xl font-bold md:text-5xl">
-          Live 3D Simulation
-        </h1>
-
-        <p className="mb-8 max-w-2xl text-muted">
-          Explore the orbital environment and interact with the simulation. Drag
-          to orbit, scroll to zoom, and select the station to lock on to its
-          telemetry.
-        </p>
+        <PageHeader
+          eyebrow="Mission Control"
+          title="Live 3D Simulation"
+          description="Explore the orbital environment and interact with the simulation. Drag to orbit, scroll to zoom, and select the station to lock on to its telemetry."
+        />
 
         {/* ------------------------------ Stage ------------------------------ */}
         <div
@@ -1471,8 +1465,8 @@ function Simulation() {
         </p>
 
         {/* ------------------------- Telemetry + map ------------------------- */}
-        <div className="mt-6 grid gap-6 lg:grid-cols-5">
-          <div className="rounded-xl border border-white/10 bg-space-800 p-6 lg:col-span-3">
+        <div className="mt-6 grid gap-6 xl:grid-cols-5">
+          <div className="rounded-xl border border-white/10 bg-space-800 p-6 xl:col-span-3">
             <div className="mb-4 flex items-center justify-between">
               <h2 className="text-lg font-semibold text-signal">
                 Station Telemetry
@@ -1551,7 +1545,7 @@ function Simulation() {
             )}
           </div>
 
-          <div className="rounded-xl border border-white/10 bg-space-800 p-6 lg:col-span-2">
+          <div className="rounded-xl border border-white/10 bg-space-800 p-6 xl:col-span-2">
             <div className="mb-4 flex items-center justify-between">
               <h2 className="text-lg font-semibold text-signal">
                 Ground Track

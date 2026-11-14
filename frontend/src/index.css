@@ -69,6 +69,14 @@ main a, main button { transition: color var(--dur-fast) ease, border-color var(-
 input, textarea, select { border-radius: 2px !important; border-color: rgba(167, 179, 191, .22) !important; background: #0b111b !important; color: #f2f5f7 !important; }
 input:focus, textarea:focus, select:focus { border-color: #61d6d1 !important; box-shadow: 0 0 0 3px rgba(97, 214, 209, .12); outline: none; }
 
+/* ---------- Layout hardening ---------- */
+/* Form fields fill their column and may shrink; base layer so Tailwind width utilities still win. */
+@layer base {
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]), textarea, select { width: 100%; min-width: 0; }
+}
+/* Long URLs / unbroken words wrap instead of being clipped by .site-main's overflow:hidden. */
+main { overflow-wrap: break-word; }
+
 /* ---------- Sidebar navigation ---------- */
 :root { --sidebar-w: 17rem; --sidebar-w-rail: 4.75rem; }
 

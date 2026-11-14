@@ -5,6 +5,7 @@ import {
   deleteResearchPaper,
 } from "../../services/researchPaperService";
 import { useNavigate } from "react-router-dom";
+import { adminPage, adminTitle } from "../../components/ui/pageStyles";
 function ResearchPaperManagement() {
   const [papers, setPapers] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -92,11 +93,11 @@ function ResearchPaperManagement() {
   };
 
   return (
-    <div className="min-h-screen bg-space-950 px-6 py-10 text-white">
+    <div className={adminPage}>
       <div className="mx-auto max-w-7xl">
         {/* <h1 className="mb-8 text-3xl font-bold">Research Paper Management</h1> */}
         <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
-          <h1 className="text-3xl font-bold">Research Paper Management</h1>
+          <h1 className={adminTitle}>Research Paper Management</h1>
 
           <button
             onClick={() => navigate("/admin/research-papers/publish")}
@@ -136,14 +137,6 @@ function ResearchPaperManagement() {
                 <p className="mt-2 text-muted">{paper.authors}</p>
                 <p className="mt-4 text-muted">{paper.abstract}</p>
 
-                <a
-                  href={paper.pdf_url}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="mt-4 inline-block text-signal"
-                >
-                  View PDF
-                </a>
                 {paper.status === "pending" && (
                   <>
                     <textarea
@@ -177,44 +170,28 @@ function ResearchPaperManagement() {
                     </div>
                   </>
                 )}
+
                 {paper.status !== "pending" && (
-                  <button
-                    onClick={() => handleDelete(paper.id)}
-                    disabled={processingId === paper.id}
-                    className="mt-4 rounded-lg bg-red-600 px-5 py-2 font-medium text-white transition hover:bg-red-700 disabled:opacity-50"
-                  >
-                    {processingId === paper.id ? "Deleting..." : "Delete Paper"}
-                  </button>
+                  <div className="mt-4 flex items-center gap-6">
+                    <a
+                      href={paper.pdf_url}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-signal hover:underline"
+                    >
+                      View PDF
+                    </a>
+                    <button
+                      onClick={() => handleDelete(paper.id)}
+                      disabled={processingId === paper.id}
+                      className="rounded-lg bg-red-600 px-5 py-2 font-medium text-white transition hover:bg-red-700 disabled:opacity-50"
+                    >
+                      {processingId === paper.id
+                        ? "Deleting..."
+                        : "Delete Paper"}
+                    </button>
+                  </div>
                 )}
-                {/* <textarea
-                  value={rejectionReason[paper.id] || ""}
-                  onChange={(e) =>
-                    setRejectionReason((previous) => ({
-                      ...previous,
-                      [paper.id]: e.target.value,
-                    }))
-                  }
-                  placeholder="Enter rejection reason"
-                  className="mt-4 w-full rounded-lg border border-white/10 bg-space-950 p-3 text-white"
-                /> */}
-
-                {/* <div className="mt-4 flex gap-3">
-                  <button
-                    onClick={() => handleReview(paper.id, "approved")}
-                    disabled={processingId === paper.id}
-                    className="rounded-lg bg-green-600 px-5 py-2 font-medium disabled:opacity-50"
-                  >
-                    Approve
-                  </button>
-
-                  <button
-                    onClick={() => handleReview(paper.id, "rejected")}
-                    disabled={processingId === paper.id}
-                    className="rounded-lg bg-red-600 px-5 py-2 font-medium disabled:opacity-50"
-                  >
-                    Reject
-                  </button>
-                </div> */}
               </div>
             ))}
           </div>

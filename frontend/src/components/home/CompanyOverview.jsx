@@ -1,10 +1,12 @@
 import Reveal from "../motion/Reveal";
+import { AerospaceLogo } from "../brand/Logos";
 
 function CompanyOverview() {
   return (
     <section className="bg-space-900 px-6 py-24 text-white">
       <div className="mx-auto grid max-w-7xl gap-12 md:grid-cols-2 md:items-center">
         <Reveal>
+          <AerospaceLogo className="mb-10 max-w-sm" />
           <p className="mb-4 font-mono text-sm uppercase tracking-widest text-signal">
             Who We Are
           </p>

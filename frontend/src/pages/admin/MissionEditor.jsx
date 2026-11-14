@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import contentService from "../../services/contentService";
+import { adminPage, adminTitle } from "../../components/ui/pageStyles";
 
 function MissionEditor() {
   const [form, setForm] = useState({
@@ -42,12 +43,12 @@ function MissionEditor() {
   }
 
   return (
-    <section className="min-h-screen bg-space-950 px-6 py-16 text-white">
+    <section className={adminPage}>
       <form
         onSubmit={handleSubmit}
         className="mx-auto max-w-3xl space-y-6 rounded-xl bg-space-800 p-8"
       >
-        <h1 className="text-3xl font-bold">Edit Mission</h1>
+        <h1 className={adminTitle}>Edit Mission</h1>
 
         <label className="block">
           Title
