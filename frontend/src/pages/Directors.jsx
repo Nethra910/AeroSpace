@@ -39,7 +39,7 @@ function Directors() {
         )}
 
         {!loading && !error && members.length > 0 && (
-          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-8 sm:grid-cols-2 xl:grid-cols-3">
             {members.map((member, index) => (
               <Reveal
                 key={member.id}

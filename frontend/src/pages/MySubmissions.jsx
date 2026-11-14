@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getMySubmissions } from "../services/researchPaperService";
+import PageHeader from "../components/ui/PageHeader";
+import { publicPage } from "../components/ui/pageStyles";
 
 function MySubmissions() {
   const [papers, setPapers] = useState([]);
@@ -39,7 +41,7 @@ function MySubmissions() {
   }
 
   return (
-    <section className="min-h-screen bg-space-950 px-6 py-16 text-ink">
+    <section className={publicPage}>
       <div className="mx-auto max-w-5xl">
         <Link
           to="/published-papers"
@@ -48,17 +50,12 @@ function MySubmissions() {
           ← Back to Publications
         </Link>
 
-        <div className="mt-8 mb-10">
-          <p className="mb-3 text-sm uppercase tracking-[0.3em] text-signal">
-            Research Publications
-          </p>
-
-          <h1 className="text-3xl font-bold">My Submissions</h1>
-
-          <p className="mt-3 text-muted">
-            Track the review status of your submitted research papers.
-          </p>
-        </div>
+        <PageHeader
+          className="mt-8"
+          eyebrow="Research Publications"
+          title="My Submissions"
+          description="Track the review status of your submitted research papers."
+        />
 
         {error && (
           <p className="mb-6 rounded-lg bg-red-500/10 p-4 text-red-400">

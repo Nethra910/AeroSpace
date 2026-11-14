@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import authService from "../../services/authService";
+import { adminPage, adminTitle } from "../../components/ui/pageStyles";
 
 function Dashboard() {
   const handleLogout = async () => {
@@ -8,10 +9,10 @@ function Dashboard() {
   };
 
   return (
-    <section className="min-h-screen bg-space-950 px-6 py-20 text-white">
+    <section className={adminPage}>
       <div className="mx-auto max-w-7xl">
         <div className="flex items-center justify-between">
-          <h1 className="text-4xl font-bold">Admin Dashboard</h1>
+          <h1 className={adminTitle}>Admin Dashboard</h1>
           <button
             onClick={handleLogout}
             className="rounded-md border border-white/20 px-5 py-2 hover:border-signal"
@@ -20,7 +21,7 @@ function Dashboard() {
           </button>
         </div>
 
-        <div className="mt-12 grid gap-6 md:grid-cols-3">
+        <div className="mt-12 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
           <Link
             to="/admin/news"
             className="rounded-xl border border-white/10 bg-space-800 p-8 hover:border-signal"
@@ -68,13 +69,13 @@ function Dashboard() {
           </Link>
           <Link
             to="/admin/research-papers"
-            className="rounded-xl border border-white/10 bg-space-800 p-6 transition hover:border-signal"
+            className="rounded-xl border border-white/10 bg-space-800 p-8 hover:border-signal"
           >
             <h2 className="text-xl font-semibold text-white">
               Research Papers
             </h2>
 
-            <p className="mt-2 text-muted">
+            <p className="mt-3 text-muted">
               Publish your own research papers instantly, review user
               submissions, and manage published papers.
             </p>

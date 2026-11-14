@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import boardMemberService from "../../services/boardMemberService";
+import { adminPage, adminTitle } from "../../components/ui/pageStyles";
 
 const emptyForm = {
   name: "",
@@ -142,9 +143,9 @@ function BoardMemberManagement() {
   };
 
   return (
-    <section className="min-h-screen bg-space-950 px-6 py-16 text-white">
+    <section className={adminPage}>
       <div className="mx-auto max-w-7xl">
-        <h1 className="text-4xl font-bold">Manage Board Members</h1>
+        <h1 className={adminTitle}>Manage Board Members</h1>
 
         {error && <p className="mt-4 text-red-400">{error}</p>}
 

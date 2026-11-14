@@ -23,7 +23,7 @@ function UserProfile() {
 
   return (
     <Section number="05" eyebrow="My Account" title="My Profile" description="Manage your MANI Aerospace account." className="min-h-screen bg-space-950">
-      <div className="mx-auto max-w-3xl">
+      <div className="max-w-3xl">
         <div className="border border-white/10 bg-space-800 p-8">
           <div className="flex flex-col items-center gap-5 sm:flex-row">
             <img
@@ -32,7 +32,7 @@ function UserProfile() {
               className="h-28 w-28 rounded-full border-2 border-signal object-cover"
             />
 
-            <div className="text-center sm:text-left">
+            <div className="max-w-full min-w-0 text-center sm:text-left">
               <h2 className="text-2xl font-semibold">{user.name}</h2>
               <p className="mt-2 text-muted">{user.email}</p>
               <div className="mt-3"><Badge tone="signal">Google Account</Badge></div>

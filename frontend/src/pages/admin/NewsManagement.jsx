@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import newsService from "../../services/newsService";
+import { adminPage, adminTitle } from "../../components/ui/pageStyles";
 
 const emptyForm = {
   title: "",
@@ -156,9 +157,9 @@ function NewsManagement() {
   };
 
   return (
-    <section className="min-h-screen bg-space-950 px-6 py-16 text-white">
+    <section className={adminPage}>
       <div className="mx-auto max-w-7xl">
-        <h1 className="text-4xl font-bold">Manage News</h1>
+        <h1 className={adminTitle}>Manage News</h1>
 
         {error && <p className="mt-4 text-red-400">{error}</p>}
 

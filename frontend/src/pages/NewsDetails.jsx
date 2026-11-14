@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import newsService from "../services/newsService";
 import Reveal from "../components/motion/Reveal";
 import Badge from "../components/ui/Badge";
+import { publicPage } from "../components/ui/pageStyles";
 
 function NewsDetails() {
   const { id } = useParams();
@@ -31,7 +32,7 @@ function NewsDetails() {
 
   if (error || !news) {
     return (
-      <section className="min-h-screen bg-space-950 px-6 py-32 text-ink">
+      <section className={publicPage}>
         <p className="text-muted">{error || "News article not found."}</p>
         <Link to="/news" className="mt-6 inline-block text-signal">
           ← Back to News
@@ -41,7 +42,7 @@ function NewsDetails() {
   }
 
   return (
-    <section className="min-h-screen bg-space-950 px-6 py-24 text-ink">
+    <section className={publicPage}>
       <article className="mx-auto max-w-4xl">
         <Link to="/news" className="font-mono text-xs uppercase tracking-wider text-signal hover:text-white">
           ← Back to News

@@ -3,6 +3,8 @@ import {
   uploadResearchPaperPdf,
   submitResearchPaper,
 } from "../services/researchPaperService";
+import PageHeader from "../components/ui/PageHeader";
+import { publicPage } from "../components/ui/pageStyles";
 
 function SubmitResearchPaper() {
   const [formData, setFormData] = useState({
@@ -80,18 +82,13 @@ function SubmitResearchPaper() {
   };
 
   return (
-    <section className="min-h-screen bg-space-950 px-6 py-16 text-ink">
+    <section className={publicPage}>
       <div className="mx-auto max-w-3xl">
-        <p className="mb-3 text-sm uppercase tracking-[0.3em] text-signal">
-          Research Publications
-        </p>
-
-        <h1 className="mb-3 text-3xl font-bold">Submit Your Research Paper</h1>
-
-        <p className="mb-10 text-muted">
-          Share your research with the Mani Aerospace community. Your submission
-          will be reviewed by the admin before publication.
-        </p>
+        <PageHeader
+          eyebrow="Research Publications"
+          title="Submit Your Research Paper"
+          description="Share your research with the Mani Aerospace community. Your submission will be reviewed by the admin before publication."
+        />
 
         <form
           onSubmit={handleSubmit}
