@@ -5,7 +5,7 @@ import Brand from "./Brand";
 function MobileTopBar({ open, onMenuClick }) {
   return (
     <div className="sticky top-0 z-30 flex h-14 items-center justify-between border-b border-white/10 bg-space-950/90 px-4 backdrop-blur lg:hidden">
-      <Brand />
+      <Brand logoClassName="h-10" />
       <button
         type="button"
         onClick={onMenuClick}

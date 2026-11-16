@@ -1,30 +1,33 @@
 import { Link } from "react-router-dom";
+import logo from "../../assets/brand/mani-aerospace-logo.jpeg";
 
-// AeroSpace logo + wordmark. Shared by the sidebar and the mobile top bar.
-function Brand({ onClick, className = "" }) {
+// Official MANI / AEROSPACE logo. Shared by the sidebar and the mobile top bar.
+//
+// The logo is an opaque, wide (1015x451) image, so it is shown as a framed tile
+// on the dark theme. When the desktop sidebar collapses to its narrow rail the
+// full logo no longer fits, so CSS swaps it for `.brand-mark`: a crop of the
+// same file showing just the "A" emblem (see index.css).
+function Brand({ onClick, className = "", logoClassName = "h-[52px]" }) {
   return (
     <Link
       to="/"
       onClick={onClick}
       aria-label="MANI Aerospace home"
-      className={`brand flex items-center gap-3 ${className}`}
+      className={`brand flex items-center ${className}`}
     >
-      <span className="grid h-9 w-9 shrink-0 place-items-center rounded-sm border border-signal/40 bg-signal/5 text-signal">
-        <svg
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.6"
-          className="hero-orbit h-5 w-5"
-          aria-hidden="true"
-        >
-          <ellipse cx="12" cy="12" rx="10" ry="4.2" transform="rotate(-30 12 12)" />
-          <circle cx="12" cy="12" r="2.4" fill="currentColor" stroke="none" />
-        </svg>
-      </span>
-      <span className="sidebar-label font-mono text-sm font-semibold tracking-[0.18em] text-white">
-        MANI <span className="text-signal">/ AEROSPACE</span>
-      </span>
+      <img
+        src={logo}
+        alt="MANI Aerospace logo"
+        width="1015"
+        height="451"
+        decoding="async"
+        className={`brand-logo block w-auto max-w-none rounded-sm border border-white/10 bg-[#ececec] ${logoClassName}`}
+      />
+      <span
+        className="brand-mark"
+        style={{ backgroundImage: `url(${logo})` }}
+        aria-hidden="true"
+      />
     </Link>
   );
 }

@@ -1,0 +1,178 @@
+diff --git a/frontend/src/components/home/HeroSection.jsx b/frontend/src/components/home/HeroSection.jsx
+index 88c5c73..43fb64e 100644
+--- a/frontend/src/components/home/HeroSection.jsx
++++ b/frontend/src/components/home/HeroSection.jsx
+@@ -1,6 +1,7 @@
+ import { useEffect, useState } from "react";
+ import { Link } from "react-router-dom";
+ import contentService from "../../services/contentService";
++import logo from "../../assets/brand/mani-aerospace-logo.jpeg";
+ 
+ function HeroSection() {
+   const [content, setContent] = useState({
+@@ -18,12 +19,19 @@ function HeroSection() {
+   }, []);
+ 
+   return (
+-    <section className="page-grid relative flex min-h-[85vh] items-center overflow-hidden bg-space-950 px-6 text-ink">
+-      <div className="hero-orbit pointer-events-none absolute -right-32 top-1/2 h-[34rem] w-[34rem] -translate-y-1/2 rounded-full border border-signal/20 md:right-0">
+-        <div className="absolute inset-12 rounded-full border border-white/10" />
+-        <div className="absolute left-1/2 top-0 h-2 w-2 rounded-full bg-warm" />
+-      </div>
+-      <div className="mx-auto w-full max-w-7xl">
++    <section className="page-grid relative isolate flex min-h-[85vh] items-center overflow-hidden bg-space-950 px-6 text-ink">
++      {/* Decorative brand watermark; styling lives in `.hero-watermark` (index.css). */}
++      <img
++        src={logo}
++        alt=""
++        aria-hidden="true"
++        width="1015"
++        height="451"
++        decoding="async"
++        draggable="false"
++        className="hero-watermark pointer-events-none absolute right-0 top-1/2 w-[min(46rem,100%)] -translate-y-1/2 select-none md:right-6"
++      />
++      <div className="relative mx-auto w-full max-w-7xl">
+         <p className="signal-rule mb-6 font-mono text-sm uppercase tracking-[0.3em] text-signal">
+           {content.subtitle}
+         </p>
+diff --git a/frontend/src/components/layout/Brand.jsx b/frontend/src/components/layout/Brand.jsx
+index 6a0f19a..38e041b 100644
+--- a/frontend/src/components/layout/Brand.jsx
++++ b/frontend/src/components/layout/Brand.jsx
+@@ -1,30 +1,33 @@
+ import { Link } from "react-router-dom";
++import logo from "../../assets/brand/mani-aerospace-logo.jpeg";
+ 
+-// AeroSpace logo + wordmark. Shared by the sidebar and the mobile top bar.
+-function Brand({ onClick, className = "" }) {
++// Official MANI / AEROSPACE logo. Shared by the sidebar and the mobile top bar.
++//
++// The logo is an opaque, wide (1015x451) image, so it is shown as a framed tile
++// on the dark theme. When the desktop sidebar collapses to its narrow rail the
++// full logo no longer fits, so CSS swaps it for `.brand-mark`: a crop of the
++// same file showing just the "A" emblem (see index.css).
++function Brand({ onClick, className = "", logoClassName = "h-[52px]" }) {
+   return (
+     <Link
+       to="/"
+       onClick={onClick}
+       aria-label="MANI Aerospace home"
+-      className={`brand flex items-center gap-3 ${className}`}
++      className={`brand flex items-center ${className}`}
+     >
+-      <span className="grid h-9 w-9 shrink-0 place-items-center rounded-sm border border-signal/40 bg-signal/5 text-signal">
+-        <svg
+-          viewBox="0 0 24 24"
+-          fill="none"
+-          stroke="currentColor"
+-          strokeWidth="1.6"
+-          className="hero-orbit h-5 w-5"
+-          aria-hidden="true"
+-        >
+-          <ellipse cx="12" cy="12" rx="10" ry="4.2" transform="rotate(-30 12 12)" />
+-          <circle cx="12" cy="12" r="2.4" fill="currentColor" stroke="none" />
+-        </svg>
+-      </span>
+-      <span className="sidebar-label font-mono text-sm font-semibold tracking-[0.18em] text-white">
+-        MANI <span className="text-signal">/ AEROSPACE</span>
+-      </span>
++      <img
++        src={logo}
++        alt="MANI Aerospace logo"
++        width="1015"
++        height="451"
++        decoding="async"
++        className={`brand-logo block w-auto max-w-none rounded-sm border border-white/10 bg-[#ececec] ${logoClassName}`}
++      />
++      <span
++        className="brand-mark"
++        style={{ backgroundImage: `url(${logo})` }}
++        aria-hidden="true"
++      />
+     </Link>
+   );
+ }
+diff --git a/frontend/src/components/layout/MobileTopBar.jsx b/frontend/src/components/layout/MobileTopBar.jsx
+index 4770f1c..25c27e7 100644
+--- a/frontend/src/components/layout/MobileTopBar.jsx
++++ b/frontend/src/components/layout/MobileTopBar.jsx
+@@ -5,7 +5,7 @@ import Brand from "./Brand";
+ function MobileTopBar({ open, onMenuClick }) {
+   return (
+     <div className="sticky top-0 z-30 flex h-14 items-center justify-between border-b border-white/10 bg-space-950/90 px-4 backdrop-blur lg:hidden">
+-      <Brand />
++      <Brand logoClassName="h-10" />
+       <button
+         type="button"
+         onClick={onMenuClick}
+diff --git a/frontend/src/config/navigation.js b/frontend/src/config/navigation.js
+index c3c8fb5..d574f80 100644
+--- a/frontend/src/config/navigation.js
++++ b/frontend/src/config/navigation.js
+@@ -4,14 +4,12 @@
+ export const primaryNav = [
+   { name: "Home", path: "/", icon: "home" },
+   { name: "Mission", path: "/mission", icon: "target" },
+-  { name: "Vision 2036", path: "/vision-2036", icon: "eye" },
+   { name: "Team SIMHA", path: "/team-simha", icon: "users" },
+   { name: "Directors", path: "/directors", icon: "briefcase" },
+   { name: "Parent Company", path: "/parent-company", icon: "building" },
+   { name: "Research Organisation", path: "/research", icon: "flask" },
+   { name: "News", path: "/news", icon: "newspaper" },
+   { name: "Published Papers", path: "/published-papers", icon: "fileText" },
+-  { name: "Live Simulation", path: "/simulation", icon: "orbit" },
+ ];
+ 
+ // Shown only when a user is signed in.
+diff --git a/frontend/src/index.css b/frontend/src/index.css
+index 52aee3f..ef7c202 100644
+--- a/frontend/src/index.css
++++ b/frontend/src/index.css
+@@ -108,7 +108,8 @@ main { overflow-wrap: break-word; }
+ 
+ .rail-tooltip { position: fixed; z-index: 60; border: 1px solid rgba(97, 214, 209, .32); border-radius: 2px; background: #111a26; box-shadow: 0 10px 30px -10px rgba(0, 0, 0, .8); color: #f2f5f7; font: 500 .75rem/1 "IBM Plex Mono", monospace; letter-spacing: .04em; padding: .5rem .625rem; pointer-events: none; transform: translateY(-50%); white-space: nowrap; animation: modal-enter var(--dur-fast) ease both; }
+ 
+-@media (max-width: 380px) { .sidebar .brand .sidebar-label { font-size: .75rem; letter-spacing: .1em; } }
++/* Brand: the full logo is swapped for a cropped "A" emblem in the collapsed rail. */
++.brand-mark { display: none; flex-shrink: 0; width: 36px; height: 25px; border-radius: 2px; background-color: #ececec; background-repeat: no-repeat; background-size: 118px auto; background-position: -39px -1px; box-shadow: 0 0 0 1px rgba(255, 255, 255, .1); }
+ 
+ @media (min-width: 1024px) {
+   .sidebar { width: var(--sidebar-w); transform: none; }
+@@ -119,12 +120,27 @@ main { overflow-wrap: break-word; }
+   .app-shell[data-collapsed="true"] { padding-left: var(--sidebar-w-rail); }
+ 
+   .sidebar[data-rail="true"] .sidebar-label { max-width: 0; opacity: 0; }
++  .sidebar[data-rail="true"] .brand-logo { display: none; }
++  .sidebar[data-rail="true"] .brand-mark { display: block; }
+   .sidebar[data-rail="true"] .sidebar-link, .sidebar[data-rail="true"] .brand { gap: 0; }
+   .sidebar[data-rail="true"] .sidebar-eyebrow { height: 1px; margin: 1rem; background: rgba(255, 255, 255, .1); font-size: 0; }
+ }
+ 
+ .scroll-progress { position: fixed; top: 0; left: 0; z-index: 50; height: 2px; background: #f0a35b; transform-origin: left; }
+-.hero-orbit { animation: orbit-drift 18s linear infinite; transform-origin: center; }
++/* Home hero watermark. The logo is an opaque light JPEG, so it is inverted (and hue-rotated back to
++   keep the blue) and blended with `screen`: its light backdrop drops out and only the outlined
++   letters and blue "AEROSPACE" glow faintly on the dark page. The mask feathers the image edges. */
++.hero-watermark {
++  height: auto;
++  opacity: .4;
++  filter: invert(1) hue-rotate(180deg);
++  mix-blend-mode: screen;
++  -webkit-mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent), linear-gradient(180deg, transparent, #000 6%, #000 94%, transparent);
++  -webkit-mask-composite: source-in;
++  mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent), linear-gradient(180deg, transparent, #000 6%, #000 94%, transparent);
++  mask-composite: intersect;
++}
++@media (max-width: 767px) { .hero-watermark { opacity: .22; } }
+ .signal-rule::before { display: block; width: 48px; height: 1px; margin-bottom: 16px; background: #61d6d1; content: ""; }
+ .site-footer a:hover { color: #61d6d1; transform: translateX(4px); }
+ 
+@@ -154,7 +170,6 @@ main { overflow-wrap: break-word; }
+ @keyframes modal-panel { from { opacity: 0; transform: translateY(14px) scale(.98); } to { opacity: 1; transform: none; } }
+ @keyframes pulse-signal { 0%, 100% { opacity: .55; } 50% { opacity: 1; } }
+ @keyframes page-enter { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+-@keyframes orbit-drift { to { transform: rotate(360deg); } }
+ @media (prefers-reduced-motion: reduce) {
+   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: .01ms !important; }
+   .reveal { opacity: 1; transform: none; clip-path: none; }

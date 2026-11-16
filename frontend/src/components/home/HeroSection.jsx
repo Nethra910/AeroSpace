@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import contentService from "../../services/contentService";
+import logo from "../../assets/brand/mani-aerospace-logo.jpeg";
 
 function HeroSection() {
   const [content, setContent] = useState({
@@ -18,12 +19,19 @@ function HeroSection() {
   }, []);
 
   return (
-    <section className="page-grid relative flex min-h-[85vh] items-center overflow-hidden bg-space-950 px-6 text-ink">
-      <div className="hero-orbit pointer-events-none absolute -right-32 top-1/2 h-[34rem] w-[34rem] -translate-y-1/2 rounded-full border border-signal/20 md:right-0">
-        <div className="absolute inset-12 rounded-full border border-white/10" />
-        <div className="absolute left-1/2 top-0 h-2 w-2 rounded-full bg-warm" />
-      </div>
-      <div className="mx-auto w-full max-w-7xl">
+    <section className="page-grid relative isolate flex min-h-[85vh] items-center overflow-hidden bg-space-950 px-6 text-ink">
+      {/* Decorative brand watermark; styling lives in `.hero-watermark` (index.css). */}
+      <img
+        src={logo}
+        alt=""
+        aria-hidden="true"
+        width="1015"
+        height="451"
+        decoding="async"
+        draggable="false"
+        className="hero-watermark pointer-events-none absolute right-0 top-1/2 w-[min(46rem,100%)] -translate-y-1/2 select-none md:right-6"
+      />
+      <div className="relative mx-auto w-full max-w-7xl">
         <p className="signal-rule mb-6 font-mono text-sm uppercase tracking-[0.3em] text-signal">
           {content.subtitle}
         </p>
