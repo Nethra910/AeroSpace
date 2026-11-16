@@ -6,13 +6,15 @@ from pydantic import BaseModel, ConfigDict, Field
 
 
 class ResearchPaperCreate(BaseModel):
+    model_config = ConfigDict(str_strip_whitespace=True)
+
     title: str = Field(..., min_length=5, max_length=255)
     abstract: str = Field(..., min_length=50)
-    authors: str = Field(..., min_length=2)
-    affiliation: Optional[str] = None
-    keywords: Optional[str] = None
-    pdf_url: str
-    upload_token: str = Field(..., min_length=1)
+    authors: str = Field(..., min_length=2, max_length=1000)
+    affiliation: Optional[str] = Field(default=None, max_length=255)
+    keywords: Optional[str] = Field(default=None, max_length=1000)
+    pdf_url: str = Field(..., min_length=1, max_length=1000)
+    cloudinary_public_id: str = Field(..., min_length=1, max_length=500)
 
 
 class ResearchPaperResponse(BaseModel):
@@ -23,6 +25,7 @@ class ResearchPaperResponse(BaseModel):
     affiliation: Optional[str]
     keywords: Optional[str]
     pdf_url: str
+    cloudinary_public_id: Optional[str] = None
     submitted_by: Optional[int]
     is_admin_submission: bool
     status: str

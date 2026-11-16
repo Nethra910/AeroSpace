@@ -59,4 +59,4 @@ class ResearchPaper(Base):
         onupdate=func.now(),
         nullable=False,
     )
-    cloudinary_public_id = Column(String(500), nullable=True)
+    cloudinary_public_id = Column(String, nullable=False)

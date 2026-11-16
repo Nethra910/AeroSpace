@@ -2,6 +2,8 @@ import { useState } from "react";
 import {
   uploadResearchPaperPdf,
   submitResearchPaper,
+  buildResearchPaperPayload,
+  getApiErrorMessage,
 } from "../services/researchPaperService";
 import PageHeader from "../components/ui/PageHeader";
 import { publicPage } from "../components/ui/pageStyles";
@@ -52,11 +54,9 @@ function SubmitResearchPaper() {
 
       const uploadResponse = await uploadResearchPaperPdf(pdfFile);
 
-      await submitResearchPaper({
-        ...formData,
-        pdf_url: uploadResponse.pdf_url,
-        cloudinary_public_id: uploadResponse.public_id,
-      });
+      await submitResearchPaper(
+        buildResearchPaperPayload(formData, uploadResponse),
+      );
       setSuccess(
         "Research paper submitted successfully! It is now awaiting admin approval.",
       );
@@ -73,8 +73,10 @@ function SubmitResearchPaper() {
       e.target.reset();
     } catch (err) {
       setError(
-        err.response?.data?.detail ||
+        getApiErrorMessage(
+          err,
           "Unable to submit research paper. Please try again.",
+        ),
       );
     } finally {
       setLoading(false);
@@ -95,10 +97,10 @@ function SubmitResearchPaper() {
           className="space-y-6 rounded-2xl border border-white/10 bg-space-800 p-8"
         >
           {[
-            { name: "title", label: "Paper Title", required: true },
-            { name: "authors", label: "Authors", required: true },
-            { name: "affiliation", label: "Affiliation" },
-            { name: "keywords", label: "Keywords" },
+            { name: "title", label: "Paper Title", required: true, minLength: 5, maxLength: 255 },
+            { name: "authors", label: "Authors", required: true, minLength: 2, maxLength: 1000 },
+            { name: "affiliation", label: "Affiliation", maxLength: 255 },
+            { name: "keywords", label: "Keywords", maxLength: 1000 },
           ].map((field) => (
             <div key={field.name}>
               <label className="mb-2 block text-sm font-medium">
@@ -111,6 +113,8 @@ function SubmitResearchPaper() {
                 value={formData[field.name]}
                 onChange={handleChange}
                 required={field.required}
+                minLength={field.minLength}
+                maxLength={field.maxLength}
                 className="w-full rounded-lg border border-white/10 bg-space-950 px-4 py-3 text-white outline-none focus:border-signal"
               />
             </div>

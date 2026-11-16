@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import {
   uploadAdminResearchPaperPdf,
   submitAdminResearchPaper,
+  buildResearchPaperPayload,
+  getApiErrorMessage,
 } from "../../services/researchPaperService";
 import { adminPage, adminTitle } from "../../components/ui/pageStyles";
 
@@ -42,18 +44,14 @@ function AdminSubmitResearchPaper() {
 
       const uploadResponse = await uploadAdminResearchPaperPdf(file);
 
-      await submitAdminResearchPaper({
-        ...formData,
-        pdf_url: uploadResponse.pdf_url,
-        cloudinary_public_id: uploadResponse.public_id,
-      });
+      await submitAdminResearchPaper(
+        buildResearchPaperPayload(formData, uploadResponse),
+      );
 
       alert("Research paper published successfully!");
       navigate("/admin/research-papers");
     } catch (err) {
-      setError(
-        err.response?.data?.detail || "Failed to publish research paper.",
-      );
+      setError(getApiErrorMessage(err, "Failed to publish research paper."));
     } finally {
       setLoading(false);
     }
@@ -80,18 +78,18 @@ function AdminSubmitResearchPaper() {
           className="space-y-5 rounded-xl border border-white/10 bg-space-800 p-8"
         >
           {[
-            ["title", "Paper Title"],
-            ["authors", "Authors"],
-            ["affiliation", "Affiliation"],
-            ["keywords", "Keywords"],
-          ].map(([name, label]) => (
+            ["title", "Paper Title", { required: true, minLength: 5, maxLength: 255 }],
+            ["authors", "Authors", { required: true, minLength: 2, maxLength: 1000 }],
+            ["affiliation", "Affiliation", { maxLength: 255 }],
+            ["keywords", "Keywords", { maxLength: 1000 }],
+          ].map(([name, label, rules]) => (
             <div key={name}>
               <label className="mb-2 block">{label}</label>
               <input
                 name={name}
                 value={formData[name]}
                 onChange={handleChange}
-                required
+                {...rules}
                 className="w-full rounded-lg border border-white/10 bg-space-950 p-3 outline-none focus:border-signal"
               />
             </div>
@@ -104,6 +102,7 @@ function AdminSubmitResearchPaper() {
               value={formData.abstract}
               onChange={handleChange}
               required
+              minLength={50}
               rows={6}
               className="w-full rounded-lg border border-white/10 bg-space-950 p-3 outline-none focus:border-signal"
             />

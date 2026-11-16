@@ -85,30 +85,18 @@ def get_optional_identity(
 
 async def upload_pdf(file: UploadFile):
     if not file.filename or not file.filename.lower().endswith(".pdf"):
-        raise HTTPException(
-            status_code=400,
-            detail="Only PDF files are allowed",
-        )
+        raise HTTPException(status_code=400, detail="Only PDF files are allowed")
 
     if file.content_type != "application/pdf":
-        raise HTTPException(
-            status_code=400,
-            detail="Invalid file type",
-        )
+        raise HTTPException(status_code=400, detail="Invalid file type")
 
     contents = await file.read(MAX_FILE_SIZE + 1)
 
     if len(contents) > MAX_FILE_SIZE:
-        raise HTTPException(
-            status_code=413,
-            detail="PDF size cannot exceed 20 MB",
-        )
+        raise HTTPException(status_code=413, detail="PDF size cannot exceed 20 MB")
 
     if not contents.startswith(b"%PDF-"):
-        raise HTTPException(
-            status_code=400,
-            detail="Invalid PDF file",
-        )
+        raise HTTPException(status_code=400, detail="Invalid PDF file")
 
     try:
         result = cloudinary.uploader.upload(
@@ -125,11 +113,7 @@ async def upload_pdf(file: UploadFile):
         }
 
     except Exception:
-        raise HTTPException(
-            status_code=502,
-            detail="PDF upload failed",
-        )
-
+        raise HTTPException(status_code=502, detail="PDF upload failed")
 
 @user_router.post("/upload")
 async def upload_user_paper(
@@ -147,10 +131,7 @@ async def upload_admin_paper(
     return await upload_pdf(file)
 
 
-@user_router.post(
-    "/",
-    response_model=ResearchPaperResponse,
-)
+@user_router.post("/", response_model=ResearchPaperResponse)
 def submit_user_paper(
     data: ResearchPaperCreate,
     current_user: User = Depends(get_current_user),

@@ -46,6 +46,44 @@ export const uploadResearchPaperPdf = async (file) => {
 
   return response.data;
 };
+
+// Builds the exact payload ResearchPaperCreate expects.
+// `uploadResponse` is the { pdf_url, public_id } object returned by the upload endpoints.
+export const buildResearchPaperPayload = (formData, uploadResponse) => {
+  if (!uploadResponse?.pdf_url || !uploadResponse?.public_id) {
+    throw new Error("PDF upload did not return a file URL and public id.");
+  }
+
+  return {
+    title: formData.title.trim(),
+    abstract: formData.abstract.trim(),
+    authors: formData.authors.trim(),
+    affiliation: formData.affiliation.trim() || null,
+    keywords: formData.keywords.trim() || null,
+    pdf_url: uploadResponse.pdf_url,
+    cloudinary_public_id: uploadResponse.public_id,
+  };
+};
+
+// FastAPI returns `detail` as a string for HTTPException but as an ARRAY of
+// objects for 422 validation errors. Rendering that array in JSX crashes React.
+export const getApiErrorMessage = (err, fallback) => {
+  const detail = err?.response?.data?.detail;
+
+  if (typeof detail === "string") return detail;
+
+  if (Array.isArray(detail)) {
+    return detail
+      .map((d) => {
+        const field = Array.isArray(d.loc) ? d.loc[d.loc.length - 1] : "";
+        return field ? `${field}: ${d.msg}` : d.msg;
+      })
+      .join("; ");
+  }
+
+  return err?.message && !err?.response ? err.message : fallback;
+};
+
 export const submitResearchPaper = async (paperData) => {
   const response = await api.post("/research-papers/", paperData);
 
