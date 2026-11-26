@@ -10,6 +10,8 @@ export const primaryNav = [
   { name: "Research Organisation", path: "/research", icon: "flask" },
   { name: "News", path: "/news", icon: "newspaper" },
   { name: "Published Papers", path: "/published-papers", icon: "fileText" },
+  { name: "Published Papers", path: "/published-papers", icon: "fileText" },
+  { name: "Internship", path: "/internship", icon: "graduationCap" },
 ];
 
 // Shown only when a user is signed in.
