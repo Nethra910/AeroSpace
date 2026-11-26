@@ -22,14 +22,28 @@ export const adminNavGroups = [
     label: "People",
     items: [
       { name: "Team Management", path: "/admin/team", icon: "users" },
-      { name: "Board Members", path: "/admin/board-members", icon: "briefcase" },
+      {
+        name: "Board Members",
+        path: "/admin/board-members",
+        icon: "briefcase",
+      },
+      { name: "Internships", path: "/admin/internships", icon: "users" },
     ],
   },
   {
     label: "Research",
     items: [
-      { name: "Research Paper Management", path: "/admin/research-papers", icon: "flask", end: true },
-      { name: "Publish Paper", path: "/admin/research-papers/publish", icon: "upload" },
+      {
+        name: "Research Paper Management",
+        path: "/admin/research-papers",
+        icon: "flask",
+        end: true,
+      },
+      {
+        name: "Publish Paper",
+        path: "/admin/research-papers/publish",
+        icon: "upload",
+      },
     ],
   },
 ];

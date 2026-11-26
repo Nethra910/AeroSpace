@@ -28,6 +28,8 @@ import SubmitResearchPaper from "../pages/SubmitResearchPaper";
 import MySubmissions from "../pages/MySubmissions";
 import ResearchPaperManagement from "../pages/admin/ResearchPaperManagement";
 import AdminSubmitResearchPaper from "../pages/admin/AdminSubmitResearchPaper";
+import Internship from "../pages/Internship";
+import InternshipManagement from "../pages/admin/InternshipManagement";
 
 function StandalonePage({ children }) {
   return <div className="page-enter">{children}</div>;
@@ -46,6 +48,7 @@ function AppRoutes() {
         <Route path="/directors" element={<Directors />} />
         <Route path="/parent-company" element={<ParentCompany />} />
         <Route path="/research" element={<Research />} />
+        <Route path="/internship" element={<Internship />} />
 
         <Route path="/published-papers" element={<PublishedPapers />} />
         <Route
@@ -98,6 +101,7 @@ function AppRoutes() {
             path="/admin/research-papers/publish"
             element={<AdminSubmitResearchPaper />}
           />
+          <Route path="/admin/internships" element={<InternshipManagement />} />
         </Route>
       </Route>
 
