@@ -9,7 +9,7 @@ export const primaryNav = [
   { name: "Parent Company", path: "/parent-company", icon: "building" },
   { name: "Research Organisation", path: "/research", icon: "flask" },
   { name: "News", path: "/news", icon: "newspaper" },
-  { name: "Published Papers", path: "/published-papers", icon: "fileText" },
+  // { name: "Published Papers", path: "/published-papers", icon: "fileText" },
   { name: "Published Papers", path: "/published-papers", icon: "fileText" },
   { name: "Internship", path: "/internship", icon: "graduationCap" },
 ];
