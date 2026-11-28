@@ -8,7 +8,6 @@ function Home() {
   return (
     <>
       <HeroSection />
-      <CompanyOverview />
       <FocusAreas />
       <LatestNews />
     </>
