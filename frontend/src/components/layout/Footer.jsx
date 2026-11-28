@@ -31,7 +31,7 @@ function Footer() {
             <Link to="/mission">Mission</Link>
             <Link to="/team-simha">Team SIMHA</Link>
             <Link to="/directors">Directors</Link>
-            <Link to="/parent-company">Parent Company</Link>
+            <Link to="/parent-company">Corporate Details</Link>
           </div>
         </div>
         <div>

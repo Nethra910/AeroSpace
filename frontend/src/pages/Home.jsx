@@ -4,8 +4,6 @@ import FocusAreas from "../components/home/FocusAreas";
 
 import LatestNews from "../components/home/LatestNews";
 
-import ProjectMASS from "../components/home/ProjectMASS";
-
 function Home() {
   return (
     <>
@@ -13,7 +11,6 @@ function Home() {
       <CompanyOverview />
       <FocusAreas />
       <LatestNews />
-      <ProjectMASS />
     </>
   );
 }
